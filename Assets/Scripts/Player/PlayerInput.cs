@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
+    [SerializeField] private bool inputEnabled = true;
+
     public float xMovement {get; private set;}
     public float yMovement {get; private set;}
     public bool harvestInput {get; private set;}
@@ -17,7 +19,10 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
-        HandleInput();
+        if (inputEnabled)
+        {
+            HandleInput();
+        }
     }
 
 
@@ -54,5 +59,17 @@ public class PlayerInput : MonoBehaviour
 
         harvestInput = Input.GetMouseButtonDown(0);
         interactionInput = Input.GetKeyDown(interactionKey);
+    }
+
+
+    public void EnableInput()
+    {
+        inputEnabled = true;
+    }
+
+
+    public void DisableInput()
+    {
+        inputEnabled = false;
     }
 }

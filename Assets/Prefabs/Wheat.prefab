@@ -296,10 +296,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExclamationMark
       objectReference: {fileID: 0}
-    - target: {fileID: 7862145851388278793, guid: ed9dadb6d40d91942949fed00936c337, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed9dadb6d40d91942949fed00936c337, type: 3}
 --- !u!4 &2080255642726985103 stripped

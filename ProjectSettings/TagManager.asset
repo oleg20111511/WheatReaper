@@ -14,7 +14,7 @@ TagManager:
   - UI
   - Invisible
   - Harvestable
-  - 
+  - InvisibleInMenu
   - 
   - 
   - 
@@ -50,4 +50,7 @@ TagManager:
     locked: 0
   - name: Units
     uniqueID: 2269044483
+    locked: 0
+  - name: UI
+    uniqueID: 3972528401
     locked: 0

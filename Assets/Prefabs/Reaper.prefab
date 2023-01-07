@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ccec8ed2b9e96944a79ea99b70ee68e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputEnabled: 0
 --- !u!114 &4325045071729946503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,6 +206,7 @@ MonoBehaviour:
   inventoryFullBlinkingDurationSeconds: 2
   inventoryFullSingleBlinkDurationSeconds: 0.2
   inventoryFullBlinkColor: {r: 1, g: 1, b: 1, a: 0}
+  cart: {fileID: 0}
 --- !u!114 &3637576934660413531
 MonoBehaviour:
   m_ObjectHideFlags: 0

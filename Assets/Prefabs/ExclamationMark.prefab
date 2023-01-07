@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7569911713648834636}
   - component: {fileID: 265116012919066263}
   - component: {fileID: 7643365839112076458}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ExclamationMark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
