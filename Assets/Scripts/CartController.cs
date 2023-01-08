@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(AudioSource))]
 public class CartController : MonoBehaviour
 {
     [SerializeField] private int capacity = 30;
@@ -14,11 +15,14 @@ public class CartController : MonoBehaviour
     [SerializeField] private Transform inPosition;
     [SerializeField] private float movementSpeed = 3f;
     [SerializeField] private FarmerController farmer;
+    [SerializeField] private AudioClip wheatTransferSound;
+    [SerializeField] private AudioClip movementSound;
 
     public int wheatAmount {get; private set;} = 0;
 
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb2d;
+    private AudioSource audioSource;
     private Transform movementTarget;
 
     
@@ -27,7 +31,7 @@ public class CartController : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -48,6 +52,7 @@ public class CartController : MonoBehaviour
                 {
                     movementTarget = null;
                     rb2d.velocity = Vector2.zero;
+                    audioSource.Stop();
                 }
                 
             }
@@ -57,6 +62,13 @@ public class CartController : MonoBehaviour
 
     public void SetWheatAmount(int newAmount)
     {
+        if (newAmount > wheatAmount)
+        {
+            audioSource.clip = wheatTransferSound;
+            audioSource.loop = false;
+            audioSource.Play();
+        }
+
         wheatAmount = newAmount;
         int fullnessState = 0;
 
@@ -114,6 +126,10 @@ public class CartController : MonoBehaviour
 
     public void MoveOut()
     {
+        audioSource.clip = movementSound;
+        audioSource.loop = true;
+        audioSource.Play();
+
         Vector2 direction = outPosition.position - transform.position;
         direction.Normalize();
         rb2d.velocity = direction * movementSpeed;

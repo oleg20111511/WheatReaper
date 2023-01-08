@@ -36,7 +36,6 @@ public class PlayerMovementController : MonoBehaviour
     {
         rb2d.velocity = Vector2.zero;
         canMove = false;
-        animator.Play(PlayerController.ANIMATION_IDLE);
     }
 
 

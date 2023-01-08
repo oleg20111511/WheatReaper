@@ -37,7 +37,8 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -2006968515656069212}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -52,6 +53,22 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-2006968515656069212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a959127adf5c04ab7e1d9ed5258f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 24c4dd6b766e2b84bb1a29cc7504675d, type: 3}
+  - {fileID: 8300000, guid: a42ee9dddecc9704c988bb0f6b4eaacd, type: 3}
+  - {fileID: 8300000, guid: b07afba1abb44d34dafcdc392922ac30, type: 3}
 --- !u!1107 &-1088044282232412203
 AnimatorStateMachine:
   serializedVersion: 6
@@ -66,7 +83,7 @@ AnimatorStateMachine:
     m_Position: {x: 396.5, y: -46, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -995506736407215595}
-    m_Position: {x: 410, y: -120, z: 0}
+    m_Position: {x: 420, y: -120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5437257798649198180}
     m_Position: {x: 400, y: -180, z: 0}
@@ -91,7 +108,8 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -270736524750003129}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -106,6 +124,22 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-270736524750003129
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ce7e1a5e7c621f42849d275d9d33c8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: 30a68e4d049239d499cbd84009d8b5c5, type: 3}
+  - {fileID: 8300000, guid: 483d5a25a18c67e46896313b11c245d4, type: 3}
+  - {fileID: 8300000, guid: 962c099d697d9fa488720064a26060f3, type: 3}
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0

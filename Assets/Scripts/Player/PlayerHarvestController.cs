@@ -47,9 +47,14 @@ public class PlayerHarvestController : MonoBehaviour
 
     private void Swipe()
     {
-        movementController.DisableMovement();
         animator.Play(PlayerController.ANIMATION_SWIPE);
+    }
+
+
+    public void OnSwipeStart()
+    {
         canSwipe = false;
+        movementController.DisableMovement();
     }
 
 

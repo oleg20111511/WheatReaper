@@ -48,7 +48,7 @@ public class IntroCutscene : CutsceneController
         farmer.GetComponent<FarmerController>().MoveOut();
 
         SetDialogueBoxVisibility(false, true);
-        StartCoroutine(DrawText(reaperDialogueText, "But.. I've.. Come to harvest your soul..."));
+        StartCoroutine(DrawText(reaperDialogueText, "But.. I've come.. To harvest your soul..."));
         yield return new WaitForSeconds(dialogueStayDurationSeconds * 3);
 
         StartCoroutine(DrawText(reaperDialogueText, "Uh..."));

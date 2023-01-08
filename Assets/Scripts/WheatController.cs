@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(AudioSource))]
 public class WheatController : MonoBehaviour
 {
     [SerializeField] private List<Sprite> growthStages;
@@ -13,6 +14,7 @@ public class WheatController : MonoBehaviour
     [SerializeField] private GameObject exclamationMark;
 
     private SpriteRenderer spriteRenderer;
+    private AudioSource audioSource;
     public static GameObject highlightedObject {get; private set;}  // Used to assert that only one wheat is highlighted at a time
 
     private int currentStage;
@@ -20,6 +22,7 @@ public class WheatController : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         SetStage(growthStages.Count - 1);
@@ -109,6 +112,7 @@ public class WheatController : MonoBehaviour
 
     public void Harvest()
     {
+        audioSource.Play();
         RestartGrowth();
     }
 }
