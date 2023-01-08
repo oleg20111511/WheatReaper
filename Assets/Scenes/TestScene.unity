@@ -4034,7 +4034,7 @@ MonoBehaviour:
   movementSpeed: 1.5
   dialogueBox: {fileID: 1130602977}
   dialogueText: {fileID: 1269217182}
-  cart: {fileID: 0}
+  cart: {fileID: 1667797421}
 --- !u!50 &1505650788
 Rigidbody2D:
   serializedVersion: 4
@@ -4797,6 +4797,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6361482382099703428, guid: 70cad37d3ea3d2847aeed81f48a12031, type: 3}
   m_PrefabInstance: {fileID: 1667797417}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1667797421 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6361482382099703546, guid: 70cad37d3ea3d2847aeed81f48a12031, type: 3}
+  m_PrefabInstance: {fileID: 1667797417}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 028871375dbc75a41b408cf9dba6d405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1710404999
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6606,7 +6617,7 @@ PrefabInstance:
     - target: {fileID: 4325045071729946503, guid: 6710b19c2bae09040aae62fa3a26c00a, type: 3}
       propertyPath: cart
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1667797421}
     - target: {fileID: 4325045071729946503, guid: 6710b19c2bae09040aae62fa3a26c00a, type: 3}
       propertyPath: holdIndicator
       value: 
