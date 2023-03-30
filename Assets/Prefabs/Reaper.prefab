@@ -13,11 +13,12 @@ GameObject:
   - component: {fileID: 533206486385055192}
   - component: {fileID: 4664547085511512761}
   - component: {fileID: 1961797584371847310}
+  - component: {fileID: 893980474316613487}
   - component: {fileID: 1777427568773627813}
   - component: {fileID: 372504034233020547}
   - component: {fileID: 4325045071729946503}
   - component: {fileID: 3637576934660413531}
-  - component: {fileID: 893980474316613487}
+  - component: {fileID: 9073665667201299131}
   m_Layer: 0
   m_Name: Reaper
   m_TagString: Player
@@ -160,69 +161,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1777427568773627813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533206486385055193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 460f2f19184e5fe49a34df0b24a7a584, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &372504034233020547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533206486385055193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ccec8ed2b9e96944a79ea99b70ee68e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputEnabled: 0
---- !u!114 &4325045071729946503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533206486385055193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 485885b47fcda744c85401e89db2f8c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canSwipe: 1
-  harvestPosition: {fileID: 224491153094326513}
-  harvestLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  maxHoldSize: 10
-  holdIndicator: {fileID: 0}
-  inventoryFullBlinkingDurationSeconds: 2
-  inventoryFullSingleBlinkDurationSeconds: 0.2
-  inventoryFullBlinkColor: {r: 1, g: 1, b: 1, a: 0}
-  cart: {fileID: 0}
---- !u!114 &3637576934660413531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533206486385055193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca7d997a6a4bc0d4c87f3e7d5abf0d55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canMove: 1
-  movementSpeed: 4
-  isFacingRight: 1
 --- !u!82 &893980474316613487
 AudioSource:
   m_ObjectHideFlags: 0
@@ -319,6 +257,83 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1777427568773627813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533206486385055193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460f2f19184e5fe49a34df0b24a7a584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &372504034233020547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533206486385055193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ccec8ed2b9e96944a79ea99b70ee68e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputEnabled: 0
+--- !u!114 &4325045071729946503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533206486385055193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 485885b47fcda744c85401e89db2f8c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canSwipe: 1
+  harvestPosition: {fileID: 224491153094326513}
+  harvestLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  maxHoldSize: 10
+  holdIndicator: {fileID: 0}
+  inventoryFullBlinkingDurationSeconds: 2
+  inventoryFullSingleBlinkDurationSeconds: 0.2
+  inventoryFullBlinkColor: {r: 1, g: 1, b: 1, a: 0}
+  cart: {fileID: 0}
+--- !u!114 &3637576934660413531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533206486385055193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca7d997a6a4bc0d4c87f3e7d5abf0d55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canMove: 1
+  movementSpeed: 4
+  isFacingRight: 1
+--- !u!114 &9073665667201299131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533206486385055193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38526a3f4e0792045a631b7a0afb52cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueBoxContainer: {fileID: 0}
+  dialogueBoxText: {fileID: 0}
 --- !u!1 &5309872557259344173
 GameObject:
   m_ObjectHideFlags: 0

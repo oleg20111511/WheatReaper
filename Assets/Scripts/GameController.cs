@@ -6,10 +6,35 @@ using TMPro;
 
 public class GameController : MonoBehaviour
 {
+    private static GameController instance;
+
     [SerializeField] private GameObject menuContainer;
-    
     [SerializeField] private PlayableDirector newGameTimeline;
     [SerializeField] private CutsceneController introDialogue;
+    [SerializeField] private PlayerController playerController;
+
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        // DontDestroyOnLoad(gameObject);
+    }
+
+
+    public static GameController Instance
+    {
+        get { return instance; }
+    }
+
+    public PlayerController PlayerController
+    {
+        get { return playerController; }
+    }
 
     public void StartGame()
     {

@@ -340,7 +340,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1657830950}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!320 &114767452
 PlayableDirector:
@@ -387,11 +387,10 @@ MonoBehaviour:
   menuCamera: {fileID: 1619364819}
   gameCamera: {fileID: 122413221}
   playerInput: {fileID: 1737162994}
+  cutsceneInput: {fileID: 533206485477063691}
   interfaceContainer: {fileID: 1878733036}
-  farmerDialogueBoxContainer: {fileID: 1130602977}
-  farmerDialogueText: {fileID: 1269217182}
-  reaperDialogueBoxContainer: {fileID: 1643200170}
-  reaperDialogueText: {fileID: 757159280}
+  farmerTalker: {fileID: 1505650790}
+  reaperTalker: {fileID: 533206485477063690}
   farmer: {fileID: 1505650784}
 --- !u!1 &122413221
 GameObject:
@@ -4378,6 +4377,7 @@ GameObject:
   - component: {fileID: 1505650789}
   - component: {fileID: 1505650788}
   - component: {fileID: 1505650787}
+  - component: {fileID: 1505650790}
   m_Layer: 0
   m_Name: Farmer
   m_TagString: Untagged
@@ -4511,6 +4511,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1505650790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505650784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38526a3f4e0792045a631b7a0afb52cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueBoxContainer: {fileID: 1130602977}
+  dialogueBoxText: {fileID: 1269217182}
 --- !u!4 &1512122835 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 533206486385055194, guid: 6710b19c2bae09040aae62fa3a26c00a, type: 3}
@@ -4767,7 +4781,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1657830950}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1605941139
 MonoBehaviour:
@@ -4784,6 +4798,7 @@ MonoBehaviour:
   menuContainer: {fileID: 324572629}
   newGameTimeline: {fileID: 114767452}
   introDialogue: {fileID: 114767453}
+  playerController: {fileID: 1864705670}
 --- !u!114 &1605941140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5250,8 +5265,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1605941137}
   - {fileID: 114767451}
+  - {fileID: 1605941137}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6594,6 +6609,17 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 893980474316613487, guid: 6710b19c2bae09040aae62fa3a26c00a, type: 3}
   m_PrefabInstance: {fileID: 533206485477063689}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1864705670 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1777427568773627813, guid: 6710b19c2bae09040aae62fa3a26c00a, type: 3}
+  m_PrefabInstance: {fileID: 533206485477063689}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460f2f19184e5fe49a34df0b24a7a584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1866470183
 GameObject:
   m_ObjectHideFlags: 0
@@ -7066,8 +7092,38 @@ PrefabInstance:
       propertyPath: holdIndicator
       value: 
       objectReference: {fileID: 1615879750}
+    - target: {fileID: 9073665667201299131, guid: 6710b19c2bae09040aae62fa3a26c00a, type: 3}
+      propertyPath: dialogueBoxText
+      value: 
+      objectReference: {fileID: 757159280}
+    - target: {fileID: 9073665667201299131, guid: 6710b19c2bae09040aae62fa3a26c00a, type: 3}
+      propertyPath: dialogueBoxContainer
+      value: 
+      objectReference: {fileID: 1643200170}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6710b19c2bae09040aae62fa3a26c00a, type: 3}
+--- !u!114 &533206485477063690 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9073665667201299131, guid: 6710b19c2bae09040aae62fa3a26c00a, type: 3}
+  m_PrefabInstance: {fileID: 533206485477063689}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38526a3f4e0792045a631b7a0afb52cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &533206485477063691 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8911345976473109896, guid: 6710b19c2bae09040aae62fa3a26c00a, type: 3}
+  m_PrefabInstance: {fileID: 533206485477063689}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24ddd1d7517d3f7498356eff6fea2674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2811242222246245522
 PrefabInstance:
   m_ObjectHideFlags: 0

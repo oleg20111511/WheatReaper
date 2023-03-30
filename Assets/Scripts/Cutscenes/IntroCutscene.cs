@@ -8,15 +8,15 @@ public class IntroCutscene : CutsceneController
     
     [SerializeField] private GameObject menuCamera;
     [SerializeField] private GameObject gameCamera;
-    
 
     [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private CutsceneInput cutsceneInput;
     [SerializeField] private GameObject interfaceContainer;
-    [SerializeField] private GameObject farmerDialogueBoxContainer;
-    [SerializeField] private TextMeshProUGUI farmerDialogueText;
-    [SerializeField] private GameObject reaperDialogueBoxContainer;
-    [SerializeField] private TextMeshProUGUI reaperDialogueText;
+    [SerializeField] private Talker farmerTalker;
+    [SerializeField] private Talker reaperTalker;
     [SerializeField] private GameObject farmer;
+
+    
 
 
     override public void Begin()
@@ -27,42 +27,24 @@ public class IntroCutscene : CutsceneController
 
     private IEnumerator StartDialogue()
     {
-        SetDialogueBoxVisibility(false, true);
-        StartCoroutine(DrawText(reaperDialogueText, "Mortal! Tremble! I've come to haverst your miserable soul!"));
-        yield return new WaitForSeconds(dialogueStayDurationSeconds * 2);
+        yield return StartCoroutine(reaperTalker.Say("Mortal! Tremble! I've come to haverst your miserable soul!"));
+        reaperTalker.dialogueBoxContainer.SetActive(false);
 
-        SetDialogueBoxVisibility(false, false);
         farmer.transform.localScale = new Vector3(-1, 1, 1);
-        yield return new WaitForSeconds(dialogueStayDurationSeconds / 4f);
+        yield return StartCoroutine(farmerTalker.Say("What? Oh, harvest, yes, just in time! You must be the new guy they promised to send, finally!"));
 
-        SetDialogueBoxVisibility(true, false);
-        StartCoroutine(DrawText(farmerDialogueText, "What? Oh, harvest, yes, just in time! You must be the new guy they promised to send, finally!"));
-        yield return new WaitForSeconds(dialogueStayDurationSeconds * 4);
+        yield return StartCoroutine(farmerTalker.Say("I really have to take a break, so go ahead and start without me. Harvest those fields over there and bring your harvest here to this cart"));
 
-        StartCoroutine(DrawText(farmerDialogueText, "I really have to take a break, so go ahead and start without me. Harvest those fields over there and bring your harvest here to this cart"));
-        yield return new WaitForSeconds(dialogueStayDurationSeconds * 3);
-        
-        StartCoroutine(DrawText(farmerDialogueText, "I'll be back soon."));
-        yield return new WaitForSeconds(dialogueStayDurationSeconds);
-
+        yield return StartCoroutine(farmerTalker.Say("I'll be back soon."));
         farmer.GetComponent<FarmerController>().MoveOut();
+        farmerTalker.dialogueBoxContainer.SetActive(false);
 
-        SetDialogueBoxVisibility(false, true);
-        StartCoroutine(DrawText(reaperDialogueText, "But.. I've come.. To harvest your soul..."));
-        yield return new WaitForSeconds(dialogueStayDurationSeconds * 3);
+        yield return StartCoroutine(reaperTalker.Say("But.. I've come.. To harvest your soul..."));
 
-        StartCoroutine(DrawText(reaperDialogueText, "Uh..."));
-        yield return new WaitForSeconds(dialogueStayDurationSeconds * 2);
+        yield return StartCoroutine(reaperTalker.Say("Uh..."));
+        reaperTalker.dialogueBoxContainer.SetActive(false);
 
-        SetDialogueBoxVisibility(false, false);
         OnDialogueEnd();
-    }
-
-
-    private void SetDialogueBoxVisibility(bool farmer, bool reaper)
-    {
-        farmerDialogueBoxContainer.SetActive(farmer);
-        reaperDialogueBoxContainer.SetActive(reaper);
     }
 
 
@@ -72,5 +54,6 @@ public class IntroCutscene : CutsceneController
         menuCamera.SetActive(false);
         gameCamera.SetActive(true);
         playerInput.EnableInput();
+        cutsceneInput.DisableInput();
     }
 }
