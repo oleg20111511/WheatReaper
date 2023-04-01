@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
@@ -16,6 +17,7 @@ public class WheatController : MonoBehaviour
     [SerializeField] private GameObject hoverFrame;
     [SerializeField] private GameObject exclamationMark;
     [SerializeField] private float infestationRecoveryDurationSeconds = 30f;
+    [SerializeField] private Image recoveryProgressDisplay;
 
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
@@ -101,9 +103,21 @@ public class WheatController : MonoBehaviour
 
     private IEnumerator Recover()
     {
-        yield return new WaitForSeconds(infestationRecoveryDurationSeconds);
+        recoveryProgressDisplay.enabled = true;
+        recoveryProgressDisplay.fillAmount = 0;
+        
+        float startTime = Time.time;
+        float endTime = startTime + infestationRecoveryDurationSeconds;
+
+        while (Time.time < endTime)
+        {
+            recoveryProgressDisplay.fillAmount = (Time.time - startTime) / infestationRecoveryDurationSeconds;
+            yield return null;
+        }
+
         isInfested = false;
         spriteRenderer.enabled = true;
+        recoveryProgressDisplay.enabled = false;
         RestartGrowth();
     }
 
