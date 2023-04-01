@@ -6,6 +6,7 @@ public class PestManager : MonoBehaviour
 {
     private static PestManager instance;
 
+    [SerializeField] private LayerMask pestsLayerMask;
     [SerializeField] private GameObject pestPrefab;
     [SerializeField] private List<Transform> spawnPoints;
     [SerializeField] private float spawnCooldownSeconds = 30f;
@@ -24,6 +25,12 @@ public class PestManager : MonoBehaviour
     public List<Transform> SpawnPoints
     {
         get { return spawnPoints; }
+    }
+
+
+    public LayerMask PestsLayerMask
+    {
+        get { return pestsLayerMask; }
     }
 
 

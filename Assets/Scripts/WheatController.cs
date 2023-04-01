@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class WheatController : MonoBehaviour
 {
-    public static GameObject highlightedObject {get; private set;}  // Used to assert that only one wheat is highlighted at a time
+    public static WheatController Highlighted {get; private set;}  // Used to assert that only one wheat is highlighted at a time
     public static List<WheatController> AllWheatControllers {get; private set;} = new List<WheatController>();
 
     [SerializeField] private List<Sprite> growthStages;
@@ -114,11 +114,11 @@ public class WheatController : MonoBehaviour
         {
             // Also remove highlight from previously highlighted object
             HoverShow();
-            if (highlightedObject != null)
+            if (Highlighted != null)
             {
-                highlightedObject.SendMessage("HoverHide");
+                Highlighted.HoverHide();
             }
-            highlightedObject = gameObject;
+            Highlighted = this;
         }
     }
 
@@ -128,9 +128,9 @@ public class WheatController : MonoBehaviour
         if (col.gameObject.CompareTag("HoverTrigger"))
         {
             HoverHide();
-            if (highlightedObject == gameObject)
+            if (Highlighted == this)
             {
-                highlightedObject = null;
+                Highlighted = null;
             }
         }
     }
@@ -151,8 +151,5 @@ public class WheatController : MonoBehaviour
     public bool IsGrown()
     {
         return currentStage == growthStages.Count - 1;
-    }
-
-
-    
+    }   
 }

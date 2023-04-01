@@ -8,8 +8,10 @@ public class PlayerHarvestController : MonoBehaviour
 {
     [SerializeField] private bool canSwipe = true;
     [SerializeField] private Transform harvestPosition;
+    [SerializeField] private Transform attackPosition;
     [SerializeField] private LayerMask harvestLayerMask;
     [SerializeField] private int maxHoldSize = 10;
+    [SerializeField] private float attackRadius = 1f;
     [SerializeField] private TextMeshProUGUI holdIndicator;
     [SerializeField] private float inventoryFullBlinkingDurationSeconds = 2;
     [SerializeField] private float inventoryFullSingleBlinkDurationSeconds = 0.2f;
@@ -18,16 +20,25 @@ public class PlayerHarvestController : MonoBehaviour
 
     private PlayerInput input;
     private PlayerMovementController movementController;
-    private Animator animator;
     private int wheatOnHand = 0;
+    private WheatController swipeHarvestTarget;
+
+    private int WheatOnHand
+    {
+        get { return wheatOnHand; }
+        set {
+            wheatOnHand = value;
+            holdIndicator.text = string.Format("{0}/{1}", value, maxHoldSize);
+        }
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
         movementController = GetComponent<PlayerMovementController>();
         input = GetComponent<PlayerInput>();
-        animator = GetComponent<Animator>();
-        SetWheatOnHandValue(0);
+        WheatOnHand = 0;
     }
 
     // Update is called once per frame
@@ -47,14 +58,30 @@ public class PlayerHarvestController : MonoBehaviour
 
     private void Swipe()
     {
-        animator.Play(PlayerController.ANIMATION_SWIPE);
+        PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_SWIPE);
     }
 
 
     public void OnSwipeStart()
     {
         canSwipe = false;
-        movementController.DisableMovement();
+        swipeHarvestTarget = WheatController.Highlighted;
+        // If player is standing over a fully-grown field, consider swipe intention as harvest
+        if (swipeHarvestTarget && swipeHarvestTarget.IsGrown())
+        {
+            movementController.DisableMovement();
+        }
+    }
+
+
+    // Happens on swipe slash frame
+    public void Attack()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackPosition.position, attackRadius, PestManager.Instance.PestsLayerMask);
+        foreach (Collider2D col in colliders)
+        {
+            col.GetComponent<PestController>().GetHit();
+        }
     }
 
 
@@ -63,8 +90,9 @@ public class PlayerHarvestController : MonoBehaviour
         Harvest();
 
         movementController.EnableMovement();
-        animator.Play(PlayerController.ANIMATION_IDLE);
+        PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_IDLE);
         canSwipe = true;
+        swipeHarvestTarget = null;
     }
 
 
@@ -75,14 +103,10 @@ public class PlayerHarvestController : MonoBehaviour
             StartCoroutine(BlinkWheatIndicator());
             return;
         }
-        if (WheatController.highlightedObject != null)
+        if (swipeHarvestTarget && swipeHarvestTarget.IsGrown())
         {
-            WheatController wheatController = WheatController.highlightedObject.GetComponent<WheatController>();
-            if (wheatController.IsGrown())
-            {
-                wheatController.Harvest();
-                SetWheatOnHandValue(wheatOnHand + 1);
-            }
+            WheatOnHand += 1;
+            swipeHarvestTarget.Harvest();
         }
     }
 
@@ -112,13 +136,6 @@ public class PlayerHarvestController : MonoBehaviour
     }
 
 
-    private void SetWheatOnHandValue(int newValue)
-    {
-        wheatOnHand = newValue;
-        holdIndicator.text = string.Format("{0}/{1}", newValue, maxHoldSize);
-    }
-
-
     private void TransferWheat()
     {
         // Check if cart is cart nearby
@@ -126,7 +143,7 @@ public class PlayerHarvestController : MonoBehaviour
             int cartSpace = cart.GetCapacity() - cart.wheatAmount;
             int transferAmount = Mathf.Min(wheatOnHand, cartSpace);
 
-            SetWheatOnHandValue(wheatOnHand - transferAmount);
+            WheatOnHand -= transferAmount;
             cart.SetWheatAmount(cart.wheatAmount + transferAmount);
         }
     }

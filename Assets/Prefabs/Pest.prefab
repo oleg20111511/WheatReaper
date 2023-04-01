@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 392469549622566056}
   - component: {fileID: -8953773548615357410}
   - component: {fileID: 366102593066403991}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Pest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,3 +147,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 10
+  cropEatingDuration: 4
+  eatingLimit: 3

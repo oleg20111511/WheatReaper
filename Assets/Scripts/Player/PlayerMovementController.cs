@@ -11,14 +11,12 @@ public class PlayerMovementController : MonoBehaviour
 
     private PlayerInput input;
     private Rigidbody2D rb2d;
-    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         input = GetComponent<PlayerInput>();
         rb2d = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
     }
 
 
@@ -71,15 +69,17 @@ public class PlayerMovementController : MonoBehaviour
         }
 
 
-        if (direction.magnitude != 0)
+        if (PlayerController.Instance.currentAnimation != PlayerController.ANIMATION_SWIPE)
         {
-            animator.Play(PlayerController.ANIMATION_WALK);
+            if (direction.magnitude != 0)
+            {
+                PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_WALK);
+            }
+            else
+            {
+                PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_IDLE);
+            }
         }
-        else
-        {
-            animator.Play(PlayerController.ANIMATION_IDLE);
-        }
-
 
         rb2d.velocity = direction * movementSpeed;
     }

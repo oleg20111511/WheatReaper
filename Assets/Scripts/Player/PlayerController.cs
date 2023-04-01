@@ -22,6 +22,16 @@ public class PlayerController : MonoBehaviour
     public PlayerInput playerInput {get; private set;}
     public CutsceneInput cutsceneInput {get; private set;}
 
+    public string currentAnimation {get; private set;}
+
+    private Animator animator;
+
+
+    public static PlayerController Instance
+    {
+        get { return instance; }
+    }
+
 
     void Awake()
     {
@@ -36,11 +46,14 @@ public class PlayerController : MonoBehaviour
         harvestController = GetComponent<PlayerHarvestController>();
         playerInput = GetComponent<PlayerInput>();
         cutsceneInput = GetComponent<CutsceneInput>();
+
+        animator = GetComponent<Animator>();
     }
 
 
-    public static PlayerController Instance
+    public void PlayAnimation(string animationName)
     {
-        get { return instance; }
-    }
+        currentAnimation = animationName;
+        animator.Play(animationName);
+    }    
 }

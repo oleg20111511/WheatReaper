@@ -291,6 +291,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d11d31a332ee7a5408ac3494c7ee9851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pestsLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
   pestPrefab: {fileID: 6171778158139743839, guid: efe129be262be5b44bb3fbed995801f9, type: 3}
   spawnPoints:
   - {fileID: 598549131}
@@ -2730,7 +2733,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 439
+    m_Bits: 951
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -5672,7 +5675,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 183
+    m_Bits: 695
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
