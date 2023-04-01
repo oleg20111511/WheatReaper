@@ -10,6 +10,7 @@ public class PestController : MonoBehaviour
 
     [SerializeField] private int movementSpeed = 10;
     [SerializeField] private float cropEatingDuration = 4f;
+    [SerializeField] private int eatingLimit = 3;
 
     private Rigidbody2D rb2d;
 
@@ -17,6 +18,7 @@ public class PestController : MonoBehaviour
     private WheatController target;
     private PestState currentState;
     private Coroutine eatingTask;
+    private int fieldsEaten = 0;
 
 
 
@@ -39,15 +41,15 @@ public class PestController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (currentState == PestState.RunningToField)
+        if (currentState == PestState.RunningToField && Utils.IsClose(movementTarget, transform))
         {
-            float distance = (movementTarget.position - transform.position).magnitude;
-            if (distance < 0.1f)
-            {
-                rb2d.velocity = Vector2.zero;
-                movementTarget = null;
-                eatingTask = StartCoroutine(EatCrop());
-            }
+            rb2d.velocity = Vector2.zero;
+            movementTarget = null;
+            eatingTask = StartCoroutine(EatCrop());
+        }
+        else if (currentState == PestState.RunningAway && Utils.IsClose(movementTarget, transform))
+        {
+            GameObject.Destroy(gameObject);
         }
     }
 
@@ -62,11 +64,8 @@ public class PestController : MonoBehaviour
         }
         else
         {
-            currentState = PestState.RunningAway;
-            Transform extractionPoint = Utils.FindClosestTransform(PestManager.Instance.SpawnPoints, transform);
-            RunTowards(extractionPoint);
+            RunAway();
         }
-        
     }
 
 
@@ -86,14 +85,20 @@ public class PestController : MonoBehaviour
     }
 
 
-    private void RunTowards(Transform newTarget)
+    private WheatController FindClosestTarget()
     {
-        movementTarget = newTarget;
-        Vector2 direction = (newTarget.position - transform.position).normalized;
-        rb2d.velocity = direction * movementSpeed;
+        List<WheatController> grownFields = WheatController.AllWheatControllers.FindAll(w => w.IsGrown());
+        if (grownFields.Count > 0)
+        {
+            target = Utils.FindClosestObject<WheatController>(grownFields, transform, w => w.transform);
+        }
+        else
+        {
+            target = null;
+        }
+
+        return target;
     }
-
-
 
 
     private IEnumerator EatCrop()
@@ -109,7 +114,32 @@ public class PestController : MonoBehaviour
         yield return new WaitForSeconds(cropEatingDuration);
         eatingTask = null;
         target.Infest();
-        ChangeTarget();
+        fieldsEaten++;
+
+        if (fieldsEaten < eatingLimit)
+        {
+            ChangeTarget();
+        }
+        else
+        {
+            RunAway();
+        }
+    }
+
+
+    private void RunAway()
+    {
+        currentState = PestState.RunningAway;
+        Transform extractionPoint = Utils.FindClosestTransform(PestManager.Instance.SpawnPoints, transform);
+        RunTowards(extractionPoint);
+    }
+
+
+    private void RunTowards(Transform newTarget)
+    {
+        movementTarget = newTarget;
+        Vector2 direction = (newTarget.position - transform.position).normalized;
+        rb2d.velocity = direction * movementSpeed;
     }
 
 
@@ -126,8 +156,13 @@ public class PestController : MonoBehaviour
 
     private void Die()
     {
+        GameObject.Destroy(gameObject);
+    }
+
+
+    private void OnDestroy()
+    {
         AllPestControllers.Remove(this);
-        GameObject.Destroy(this);
     }
 }
 
