@@ -11,8 +11,6 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject menuContainer;
     [SerializeField] private PlayableDirector newGameTimeline;
     [SerializeField] private CutsceneController introDialogue;
-    [SerializeField] private PlayerController playerController;
-
 
     private void Awake()
     {
@@ -31,10 +29,6 @@ public class GameController : MonoBehaviour
         get { return instance; }
     }
 
-    public PlayerController PlayerController
-    {
-        get { return playerController; }
-    }
 
     public void StartGame()
     {

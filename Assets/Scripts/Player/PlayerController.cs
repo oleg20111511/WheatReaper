@@ -11,6 +11,8 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovementController))]
 public class PlayerController : MonoBehaviour
 {
+    private static PlayerController instance;
+
     public const string ANIMATION_IDLE = "ReaperIdle";
     public const string ANIMATION_WALK = "ReaperWalk";
     public const string ANIMATION_SWIPE = "ReaperSwipe";
@@ -22,10 +24,23 @@ public class PlayerController : MonoBehaviour
 
 
     void Awake()
-    {  
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+
         movementController = GetComponent<PlayerMovementController>();
         harvestController = GetComponent<PlayerHarvestController>();
         playerInput = GetComponent<PlayerInput>();
         cutsceneInput = GetComponent<CutsceneInput>();
-    }    
+    }
+
+
+    public static PlayerController Instance
+    {
+        get { return instance; }
+    }
 }

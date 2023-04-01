@@ -12,7 +12,7 @@ public class Talker : MonoBehaviour
 
     private void Start()
     {
-        playerInput = GameController.Instance.PlayerController.cutsceneInput;
+        playerInput = PlayerController.Instance.cutsceneInput;
     }
 
 

@@ -28,7 +28,7 @@ public abstract class CutsceneController : MonoBehaviour
         for (int i = 0; i < text.Length; i++)
         {
             // Fully display text if skip button was pressed
-            if (GameController.Instance.PlayerController.cutsceneInput.skipInput)
+            if (PlayerController.Instance.cutsceneInput.skipInput)
             {
                 textHolder.text = text;
                 yield return null;
@@ -53,7 +53,7 @@ public abstract class CutsceneController : MonoBehaviour
     {
         float endTime = Time.time + waitTime;
 
-        while (Time.time < endTime && !GameController.Instance.PlayerController.cutsceneInput.skipInput)
+        while (Time.time < endTime && !PlayerController.Instance.cutsceneInput.skipInput)
         {
             yield return null;
         }

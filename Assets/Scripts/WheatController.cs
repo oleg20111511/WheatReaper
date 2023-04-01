@@ -7,20 +7,33 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class WheatController : MonoBehaviour
 {
+    public static GameObject highlightedObject {get; private set;}  // Used to assert that only one wheat is highlighted at a time
+    public static List<WheatController> AllWheatControllers {get; private set;} = new List<WheatController>();
+
     [SerializeField] private List<Sprite> growthStages;
     [SerializeField] private int minStageDurationMilliseconds = 10000;
     [SerializeField] private int maxStageDurationMilliseconds = 20000;
     [SerializeField] private GameObject hoverFrame;
     [SerializeField] private GameObject exclamationMark;
+    [SerializeField] private float infestationRecoveryDurationSeconds = 30f;
 
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
-    public static GameObject highlightedObject {get; private set;}  // Used to assert that only one wheat is highlighted at a time
-
     private int currentStage;
+    private Coroutine growthTask;
+    private bool isInfested = false;
+
+    
+    private void Awake()
+    {
+        if (!AllWheatControllers.Contains(this))
+        {
+            AllWheatControllers.Add(this);
+        }
+    }
 
 
-    void Start()
+    private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -29,47 +42,21 @@ public class WheatController : MonoBehaviour
     }
 
 
-    void OnTriggerEnter2D(Collider2D col)
+    public void Harvest()
     {
-        if (col.gameObject.CompareTag("HoverTrigger"))
-        {
-            // Also remove highlight from previously highlighted object
-            HoverShow();
-            if (highlightedObject != null)
-            {
-                highlightedObject.SendMessage("HoverHide");
-            }
-            highlightedObject = gameObject;
-        }
+        audioSource.Play();
+        RestartGrowth();
     }
 
 
-    void OnTriggerExit2D(Collider2D col)
+    private void RestartGrowth()
     {
-        if (col.gameObject.CompareTag("HoverTrigger"))
-        {
-            HoverHide();
-            if (highlightedObject == gameObject)
-            {
-                highlightedObject = null;
-            }
-        }
+        SetStage(0);
+        growthTask = StartCoroutine(Grow());
     }
 
 
-    IEnumerator Grow()
-    {
-        while(currentStage < growthStages.Count - 1)
-        {
-            float waitTime = Random.Range(minStageDurationMilliseconds, maxStageDurationMilliseconds);
-            waitTime /= 1000f;
-            yield return new WaitForSeconds(waitTime);
-            SetStage(currentStage + 1);
-        }
-    }
-
-
-    void SetStage(int newStage)
+    private void SetStage(int newStage)
     {
         currentStage = newStage;
         spriteRenderer.sprite = growthStages[newStage];
@@ -85,10 +72,67 @@ public class WheatController : MonoBehaviour
     }
 
 
-    void RestartGrowth()
+    private IEnumerator Grow()
     {
+        while(currentStage < growthStages.Count - 1)
+        {
+            float waitTime = Random.Range(minStageDurationMilliseconds, maxStageDurationMilliseconds);
+            waitTime /= 1000f;
+            yield return new WaitForSeconds(waitTime);
+            SetStage(currentStage + 1);
+        }
+        growthTask = null;
+    }
+
+
+    public void Infest()
+    {
+        if (growthTask != null)
+        {
+            StopCoroutine(growthTask);
+        }
+        
         SetStage(0);
-        StartCoroutine(Grow());
+        isInfested = true;
+        spriteRenderer.enabled = false;
+        StartCoroutine(Recover());
+    }
+
+
+    private IEnumerator Recover()
+    {
+        yield return new WaitForSeconds(infestationRecoveryDurationSeconds);
+        isInfested = false;
+        spriteRenderer.enabled = true;
+        RestartGrowth();
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (!isInfested && col.gameObject.CompareTag("HoverTrigger"))
+        {
+            // Also remove highlight from previously highlighted object
+            HoverShow();
+            if (highlightedObject != null)
+            {
+                highlightedObject.SendMessage("HoverHide");
+            }
+            highlightedObject = gameObject;
+        }
+    }
+
+
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("HoverTrigger"))
+        {
+            HoverHide();
+            if (highlightedObject == gameObject)
+            {
+                highlightedObject = null;
+            }
+        }
     }
 
 
@@ -110,9 +154,5 @@ public class WheatController : MonoBehaviour
     }
 
 
-    public void Harvest()
-    {
-        audioSource.Play();
-        RestartGrowth();
-    }
+    
 }
