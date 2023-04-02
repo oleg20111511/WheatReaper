@@ -45,6 +45,15 @@ public class UpgradeManager : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        if (PlayerController.Instance.playerInput.exitInput && IsMenuOpen)
+        {
+            CloseMenu();
+        }
+    }
+
+
     public void AddAvailableUpgrade(Upgrade upgrade)
     {
         availableUpgrades.Add(upgrade);
@@ -56,14 +65,14 @@ public class UpgradeManager : MonoBehaviour
 
     public void OpenMenu()
     {
-        PlayerController.Instance.playerInput.DisableInput();
+        PlayerController.Instance.Freeze();
         upgradeMenu.SetActive(true);
     }
 
 
     public void CloseMenu()
     {
-        PlayerController.Instance.playerInput.EnableInput();
+        PlayerController.Instance.Unfreeze();
         upgradeMenu.SetActive(false);
     }
 }

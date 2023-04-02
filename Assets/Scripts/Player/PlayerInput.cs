@@ -9,6 +9,7 @@ public class PlayerInput : MonoBehaviour
     public float yMovement { get; private set; }
     public bool harvestInput { get; private set; }
     public bool interactionInput { get; private set; }
+    public bool exitInput { get; private set; }
 
     // Private Fields
     [SerializeField] private bool inputEnabled = true;
@@ -17,6 +18,7 @@ public class PlayerInput : MonoBehaviour
     private KeyCode moveUpKey = KeyCode.W;
     private KeyCode moveDownKey = KeyCode.S;
     private KeyCode interactionKey = KeyCode.E;
+    private KeyCode exitKey = KeyCode.Escape;
 
     // Unity Methods
     private void Update()
@@ -72,5 +74,6 @@ public class PlayerInput : MonoBehaviour
 
         harvestInput = Input.GetMouseButtonDown(0);
         interactionInput = Input.GetKeyDown(interactionKey);
+        exitInput = Input.GetKeyDown(exitKey);
     }
 }

@@ -108,4 +108,18 @@ public class PlayerController : MonoBehaviour
         currentAnimation = animationName;
         animator.Play(animationName);
     }
+
+
+    public void Freeze()
+    {
+        movementController.DisableMovement();
+        harvestController.DisableSwipe();
+    }
+
+
+    public void Unfreeze()
+    {
+        movementController.EnableMovement();
+        harvestController.EnableSwipe();
+    }
 }

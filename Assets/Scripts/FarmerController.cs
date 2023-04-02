@@ -142,10 +142,10 @@ public class FarmerController : MonoBehaviour, IInteractable
 
         talker.dialogueBoxContainer.SetActive(true);
         
-        // if (PlayerController.Instance.totalEarnings >= 30)
-        // {
+        if (PlayerController.Instance.totalEarnings >= 30)
+        {
             yield return StartCoroutine(OfferUpgrades());
-        // }
+        }
 
         yield return StartCoroutine(CutsceneController.DrawText(talker.dialogueBoxText, comments[commentIndex]));
         if (commentIndex < comments.Count - 1) {
@@ -218,7 +218,7 @@ public class FarmerController : MonoBehaviour, IInteractable
     private IEnumerator ExplainUpgrades()
     {
         upgradesExplained = true;
-        PlayerController.Instance.playerInput.DisableInput();
+        PlayerController.Instance.Freeze();
         PlayerController.Instance.cutsceneInput.EnableInput();
         
         yield return StartCoroutine(talker.Say("Upgrades!!!"));

@@ -6,7 +6,7 @@ using TMPro;
 [RequireComponent(typeof(PlayerController))]
 public class PlayerHarvestController : MonoBehaviour
 {
-    [SerializeField] private bool canSwipe = true;
+    [SerializeField] private bool swipeEnabled = true;
     [SerializeField] private Transform harvestPosition;
     [SerializeField] private Transform attackPosition;
     [SerializeField] private LayerMask harvestLayerMask;
@@ -19,8 +19,9 @@ public class PlayerHarvestController : MonoBehaviour
 
     private PlayerInput input;
     private PlayerMovementController movementController;
-    private int wheatOnHand = 0;
     private WheatController swipeHarvestTarget;
+    private int wheatOnHand = 0;
+    private bool swipeAvailable = true;
 
     public int WheatOnHand
     {
@@ -29,6 +30,12 @@ public class PlayerHarvestController : MonoBehaviour
             wheatOnHand = value;
             holdIndicator.text = string.Format("{0}/{1}", value, maxHoldSize);
         }
+    }
+
+
+    public bool CanSwipe
+    {
+        get { return swipeEnabled && swipeAvailable; }
     }
 
 
@@ -42,16 +49,28 @@ public class PlayerHarvestController : MonoBehaviour
 
     private void Update()
     {
-        if (canSwipe && input.harvestInput)
+        if (CanSwipe && input.harvestInput)
         {
             Swipe();
         }
     }
 
 
+    public void EnableSwipe()
+    {
+        swipeEnabled = true;
+    }
+
+
+    public void DisableSwipe()
+    {
+        swipeEnabled = false;
+    }
+
+
     public void OnSwipeStart()
     {
-        canSwipe = false;
+        swipeAvailable = false;
         swipeHarvestTarget = WheatController.Highlighted;
         // If player is standing over a fully-grown field, consider swipe intention as harvest
         if (swipeHarvestTarget && swipeHarvestTarget.IsGrown())
@@ -78,7 +97,7 @@ public class PlayerHarvestController : MonoBehaviour
 
         movementController.EnableMovement();
         PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_IDLE);
-        canSwipe = true;
+        swipeAvailable = true;
         swipeHarvestTarget = null;
     }
 

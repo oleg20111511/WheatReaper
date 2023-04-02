@@ -8146,7 +8146,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 507058583307190923, guid: 064a8bdabc02a8c48a321ad2400f3f06, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 507058583990414682, guid: 064a8bdabc02a8c48a321ad2400f3f06, type: 3}
       propertyPath: dialogueBoxText
