@@ -7,7 +7,7 @@ public class RandomSoundBehaviour : StateMachineBehaviour
     [SerializeField] private List<AudioClip> audioClips;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         AudioSource audioSource = animator.gameObject.GetComponent<AudioSource>();
         int chosenClipIndex = Random.Range(0, audioClips.Count);

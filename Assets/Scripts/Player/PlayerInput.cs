@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] private bool inputEnabled = true;
+    // Public Fields
+    public float xMovement { get; private set; }
+    public float yMovement { get; private set; }
+    public bool harvestInput { get; private set; }
+    public bool interactionInput { get; private set; }
 
-    public float xMovement {get; private set;}
-    public float yMovement {get; private set;}
-    public bool harvestInput {get; private set;}
-    public bool interactionInput {get; private set;}
-    
+    // Private Fields
+    [SerializeField] private bool inputEnabled = true;
     private KeyCode moveLeftKey = KeyCode.A;
     private KeyCode moveRightKey = KeyCode.D;
     private KeyCode moveUpKey = KeyCode.W;
     private KeyCode moveDownKey = KeyCode.S;
     private KeyCode interactionKey = KeyCode.E;
 
-    void Update()
+    // Unity Methods
+    private void Update()
     {
         if (inputEnabled)
         {
@@ -25,7 +27,18 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    // Public Methods
+    public void EnableInput()
+    {
+        inputEnabled = true;
+    }
 
+    public void DisableInput()
+    {
+        inputEnabled = false;
+    }
+
+    // Private Methods
     private void HandleInput()
     {
         // Handle movement input in a way so that when both keys for an axis are pressed, movement is set to 0
@@ -59,17 +72,5 @@ public class PlayerInput : MonoBehaviour
 
         harvestInput = Input.GetMouseButtonDown(0);
         interactionInput = Input.GetKeyDown(interactionKey);
-    }
-
-
-    public void EnableInput()
-    {
-        inputEnabled = true;
-    }
-
-
-    public void DisableInput()
-    {
-        inputEnabled = false;
     }
 }

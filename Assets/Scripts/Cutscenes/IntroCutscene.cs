@@ -16,12 +16,21 @@ public class IntroCutscene : CutsceneController
     [SerializeField] private Talker reaperTalker;
     [SerializeField] private GameObject farmer;
 
-    
-
 
     override public void Begin()
     {
         StartCoroutine(StartDialogue());
+    }
+
+
+    public void OnDialogueEnd()
+    {
+        interfaceContainer.SetActive(true);
+        menuCamera.SetActive(false);
+        gameCamera.SetActive(true);
+        playerInput.EnableInput();
+        cutsceneInput.DisableInput();
+        PestManager.Instance.Enable();
     }
 
 
@@ -45,15 +54,5 @@ public class IntroCutscene : CutsceneController
         reaperTalker.dialogueBoxContainer.SetActive(false);
 
         OnDialogueEnd();
-    }
-
-
-    public void OnDialogueEnd()
-    {
-        interfaceContainer.SetActive(true);
-        menuCamera.SetActive(false);
-        gameCamera.SetActive(true);
-        playerInput.EnableInput();
-        cutsceneInput.DisableInput();
     }
 }

@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PestState {
+    RunningToField,
+    EatingCrop,
+    RunningAway
+}
+
+
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class PestController : MonoBehaviour
@@ -19,7 +26,6 @@ public class PestController : MonoBehaviour
     private PestState currentState;
     private Coroutine eatingTask;
     private int fieldsEaten = 0;
-
 
 
     private void Awake()
@@ -54,13 +60,30 @@ public class PestController : MonoBehaviour
     }
 
 
+    private void OnDestroy()
+    {
+        AllPestControllers.Remove(this);
+    }
+
+
+    public void GetHit()
+    {
+        if (eatingTask != null)
+        {
+            StopCoroutine(eatingTask);
+        }
+        
+        Die();
+    }
+
+
     private void ChangeTarget()
     {
         target = FindRandomTarget();
         if (target)
         {
             currentState = PestState.RunningToField;
-            RunTowards(target.transform);
+            MoveTo(target.transform);
         }
         else
         {
@@ -131,11 +154,11 @@ public class PestController : MonoBehaviour
     {
         currentState = PestState.RunningAway;
         Transform extractionPoint = Utils.FindClosestTransform(PestManager.Instance.SpawnPoints, transform);
-        RunTowards(extractionPoint);
+        MoveTo(extractionPoint);
     }
 
 
-    private void RunTowards(Transform newTarget)
+    private void MoveTo(Transform newTarget)
     {
         movementTarget = newTarget;
         Vector2 direction = (newTarget.position - transform.position).normalized;
@@ -143,32 +166,8 @@ public class PestController : MonoBehaviour
     }
 
 
-    public void GetHit()
-    {
-        if (eatingTask != null)
-        {
-            StopCoroutine(eatingTask);
-        }
-        
-        Die();
-    }
-
-
     private void Die()
     {
         GameObject.Destroy(gameObject);
     }
-
-
-    private void OnDestroy()
-    {
-        AllPestControllers.Remove(this);
-    }
-}
-
-
-public enum PestState {
-    RunningToField,
-    EatingCrop,
-    RunningAway
 }

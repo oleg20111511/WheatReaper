@@ -302,6 +302,7 @@ MonoBehaviour:
   - {fileID: 1364751960}
   spawnCooldownSeconds: 30
   spawnCheckInterval: 1
+  canSpawn: 0
   spawnChancePercent: 1
 --- !u!1 &66361288
 GameObject:
@@ -5409,8 +5410,8 @@ MonoBehaviour:
   outPosition: {fileID: 346283358}
   inPosition: {fileID: 1769095310}
   movementSpeed: 1.5
-  dialogueBox: {fileID: 1130602977}
-  dialogueText: {fileID: 1269217182}
+  dialogueBox: {fileID: 0}
+  dialogueText: {fileID: 0}
   cart: {fileID: 235173822}
 --- !u!50 &1505650788
 Rigidbody2D:
@@ -5432,7 +5433,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!95 &1505650789
 Animator:
   serializedVersion: 4
@@ -8455,10 +8456,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1374958051}
     m_Modifications:
-    - target: {fileID: 5102633951115361754, guid: 160675197a185c4468606ad746c6edd5, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7405189940074531337, guid: 160675197a185c4468606ad746c6edd5, type: 3}
       propertyPath: m_RootOrder
       value: 0

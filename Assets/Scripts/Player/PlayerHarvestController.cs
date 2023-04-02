@@ -34,7 +34,7 @@ public class PlayerHarvestController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         movementController = GetComponent<PlayerMovementController>();
         input = GetComponent<PlayerInput>();
@@ -42,7 +42,7 @@ public class PlayerHarvestController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (canSwipe && input.harvestInput)
         {
@@ -53,12 +53,6 @@ public class PlayerHarvestController : MonoBehaviour
         {
             TransferWheat();
         }
-    }
-
-
-    private void Swipe()
-    {
-        PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_SWIPE);
     }
 
 
@@ -96,6 +90,12 @@ public class PlayerHarvestController : MonoBehaviour
     }
 
 
+    private void Swipe()
+    {
+        PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_SWIPE);
+    }
+
+
     private void Harvest()
     {
         if (wheatOnHand == maxHoldSize)
@@ -111,7 +111,7 @@ public class PlayerHarvestController : MonoBehaviour
     }
 
 
-    IEnumerator BlinkWheatIndicator()
+    private IEnumerator BlinkWheatIndicator()
     {
         float timeElapsed = 0;
         Color nextColor = inventoryFullBlinkColor;
@@ -140,11 +140,11 @@ public class PlayerHarvestController : MonoBehaviour
     {
         // Check if cart is cart nearby
         if (cart.IsInRange()) {
-            int cartSpace = cart.GetCapacity() - cart.wheatAmount;
+            int cartSpace = cart.Capacity - cart.WheatAmount;
             int transferAmount = Mathf.Min(wheatOnHand, cartSpace);
 
             WheatOnHand -= transferAmount;
-            cart.SetWheatAmount(cart.wheatAmount + transferAmount);
+            cart.WheatAmount += transferAmount;
         }
     }
 }

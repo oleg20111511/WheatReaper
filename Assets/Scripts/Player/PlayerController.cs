@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void Awake()
+    private void Awake()
     {
         if (instance != null && instance != this)
         {

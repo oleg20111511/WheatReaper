@@ -18,16 +18,26 @@ public class CartController : MonoBehaviour
     [SerializeField] private AudioClip wheatTransferSound;
     [SerializeField] private AudioClip movementSound;
 
-    public int wheatAmount {get; private set;} = 0;
-
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb2d;
     private AudioSource audioSource;
     private Transform movementTarget;
+    private int wheatAmount = 0;
 
     
-    // Start is called before the first frame update
-    void Start()
+    public int Capacity
+    {
+        get { return capacity; }
+    }
+
+    public int WheatAmount
+    {
+        get { return wheatAmount; }
+        set { SetWheatAmount(value); }
+    }
+
+
+    private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
@@ -35,32 +45,63 @@ public class CartController : MonoBehaviour
     }
 
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         // Check if cart is moving and reached target position
-        if (movementTarget != null)
+        if (movementTarget != null && Utils.IsClose(movementTarget, transform))
         {
-            float distance = (movementTarget.position - transform.position).magnitude;
-            if (distance < 0.5f)
+            if (movementTarget == outPosition)
             {
-                if (movementTarget == outPosition)
-                {
-                    SetWheatAmount(0);
-                    MoveIn();
-                }
-                else
-                {
-                    movementTarget = null;
-                    rb2d.velocity = Vector2.zero;
-                    audioSource.Stop();
-                }
-                
+                SetWheatAmount(0);
+                MoveTo(inPosition);
+            }
+            else
+            {
+                movementTarget = null;
+                rb2d.velocity = Vector2.zero;
+                audioSource.Stop();
             }
         }
     }
 
 
-    public void SetWheatAmount(int newAmount)
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Player"))
+        {
+            keyPrompt.SetActive(true);
+        }
+    }
+
+
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.CompareTag("Player"))
+        {
+            keyPrompt.SetActive(false);
+        }
+    }
+
+
+    // Check if player is within wheat transferring range. Since that happens when player enters trigger,
+    // and when that happens keyprompt is enabled, this function returns state of keyprompt
+    public bool IsInRange()
+    {
+        return keyPrompt.activeSelf;
+    }
+
+
+    public void MoveOut()
+    {
+        audioSource.clip = movementSound;
+        audioSource.loop = true;
+        audioSource.Play();
+
+        MoveTo(outPosition);
+    }
+
+
+    private void SetWheatAmount(int newAmount)
     {
         if (newAmount > wheatAmount)
         {
@@ -92,56 +133,10 @@ public class CartController : MonoBehaviour
     }
 
 
-    // Check if player is within wheat transferring range. Since that happens when player enters trigger,
-    // and when that happens keyprompt is enabled, this function returns state of keyprompt
-    public bool IsInRange()
+    private void MoveTo(Transform newTarget)
     {
-        return keyPrompt.activeSelf;
-    }
-
-
-    public int GetCapacity()
-    {
-        return capacity;
-    }
-
-    
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.CompareTag("Player"))
-        {
-            keyPrompt.SetActive(true);
-        }
-    }
-
-
-    void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.CompareTag("Player"))
-        {
-            keyPrompt.SetActive(false);
-        }
-    }
-
-
-    public void MoveOut()
-    {
-        audioSource.clip = movementSound;
-        audioSource.loop = true;
-        audioSource.Play();
-
-        Vector2 direction = outPosition.position - transform.position;
-        direction.Normalize();
+        movementTarget = newTarget;
+        Vector2 direction = (newTarget.position - transform.position).normalized;
         rb2d.velocity = direction * movementSpeed;
-        movementTarget = outPosition;
-    }
-
-
-    public void MoveIn()
-    {
-        Vector2 direction = inPosition.position - transform.position;
-        direction.Normalize();
-        rb2d.velocity = direction * movementSpeed;
-        movementTarget = inPosition;
     }
 }

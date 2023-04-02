@@ -39,26 +39,11 @@ public class UpgradeManager : MonoBehaviour
     }
 
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OpenMenu();
-        }
-    }
-
-
     public void AddAvailableUpgrade(Upgrade upgrade)
     {
-        // availableUpgrades.Add(upgrade);
-        // UpgradeUIContainer upgradeUI = GameObject.Instantiate(upgradeUIContainerPrefab, upgradeMenuContent).GetComponent<UpgradeUIContainer>();
-        // upgradeUI.upgradeName.text = upgrade.UpgradeName;
-        for (int i = 0; i < 30; i++)
-        {
-            availableUpgrades.Add(upgrade);
-            UpgradeUIContainer upgradeUI = GameObject.Instantiate(upgradeUIContainerPrefab, upgradeMenuContent).GetComponent<UpgradeUIContainer>();
-            upgradeUI.upgradeName.text = upgrade.UpgradeName;
-        }
+        availableUpgrades.Add(upgrade);
+        UpgradeUIContainer upgradeUI = GameObject.Instantiate(upgradeUIContainerPrefab, upgradeMenuContent).GetComponent<UpgradeUIContainer>();
+        upgradeUI.upgradeName.text = upgrade.UpgradeName;
         
     }
 

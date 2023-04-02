@@ -13,10 +13,9 @@ public class FarmerController : MonoBehaviour
     [SerializeField] private Transform outPosition;
     [SerializeField] private Transform inPosition;
     [SerializeField] private float movementSpeed = 3f;
-    [SerializeField] private GameObject dialogueBox;
-    [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private CartController cart;
 
+    private Talker talker;
     private Transform movementTarget;
     private Animator animator;
     private Rigidbody2D rb2d;
@@ -24,8 +23,9 @@ public class FarmerController : MonoBehaviour
     private List<string> comments;
     private int commentIndex = 0;
 
-    void Start()
+    private void Awake()
     {
+        talker = GetComponent<Talker>();
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         
@@ -42,48 +42,47 @@ public class FarmerController : MonoBehaviour
     }
 
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         // Check if farmer is moving and reached target position
-        if (movementTarget != null)
+        if (movementTarget != null && Utils.IsClose(movementTarget, transform))
         {
-            float distance = (movementTarget.position - transform.position).magnitude;
-            if (distance < 0.5f)
-            {
-                movementTarget = null;
-                rb2d.velocity = Vector2.zero;
-                animator.Play(ANIMATION_IDLE);
-            }
+            movementTarget = null;
+            rb2d.velocity = Vector2.zero;
+            animator.Play(ANIMATION_IDLE);
         }
     }
 
 
     public void MoveOut()
     {
-        transform.localScale = new Vector3(1, 1, 1);
-        animator.Play(ANIMATION_WALK);
-        Vector2 direction = outPosition.position - transform.position;
-        direction.Normalize();
-        rb2d.velocity = direction * movementSpeed;
-        movementTarget = outPosition;
-    }
-
-
-    public void MoveIn()
-    {
-        transform.localScale = new Vector3(-1, 1, 1);
-        animator.Play(ANIMATION_WALK);
-        Vector2 direction = inPosition.position - transform.position;
-        direction.Normalize();
-        rb2d.velocity = direction * movementSpeed;
-        movementTarget = inPosition;
+        MoveTo(outPosition);
     }
 
 
     public void TakeCart()
     {
-        MoveIn();
+        MoveTo(inPosition);
         StartCoroutine(CommentOnProgress());
+    }
+
+
+    private void MoveTo(Transform newTarget)
+    {
+        movementTarget = newTarget;
+        Vector2 direction = (newTarget.position - transform.position).normalized;
+
+        if (direction.x < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+
+        rb2d.velocity = direction * movementSpeed;
+        animator.Play(ANIMATION_WALK);
     }
 
 
@@ -95,16 +94,16 @@ public class FarmerController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        dialogueBox.SetActive(true);
-        StartCoroutine(CutsceneController.DrawText(dialogueText, comments[commentIndex]));
+        talker.dialogueBoxContainer.SetActive(true);
+        StartCoroutine(CutsceneController.DrawText(talker.dialogueBoxText, comments[commentIndex]));
         if (commentIndex < comments.Count - 1) {
             commentIndex++;
         }
         yield return new WaitForSeconds(5f);
 
-        dialogueBox.SetActive(false);
+        talker.dialogueBoxContainer.SetActive(false);
 
-        MoveOut();
+        MoveTo(outPosition);
         cart.MoveOut();
     }
 }

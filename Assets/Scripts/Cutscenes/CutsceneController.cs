@@ -8,15 +8,6 @@ public abstract class CutsceneController : MonoBehaviour
     public bool isPlaying {get; protected set;} = false;
     [SerializeField] protected float dialogueStayDurationSeconds = 3f;
 
-    public void Play()
-    {
-        isPlaying = true;
-        Begin();
-    }
-
-
-    public abstract void Begin();
-
 
     public static IEnumerator DrawText(TextMeshProUGUI textHolder, string text)
     {
@@ -58,7 +49,17 @@ public abstract class CutsceneController : MonoBehaviour
             yield return null;
         }
     }
-    
+
+
+    public void Play()
+    {
+        isPlaying = true;
+        Begin();
+    }
+
+
+    public abstract void Begin();
+
 
     public void Terminate()
     {

@@ -12,6 +12,12 @@ public class GameController : MonoBehaviour
     [SerializeField] private PlayableDirector newGameTimeline;
     [SerializeField] private CutsceneController introDialogue;
 
+    public static GameController Instance
+    {
+        get { return instance; }
+    }
+
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -21,12 +27,6 @@ public class GameController : MonoBehaviour
         }
         instance = this;
         // DontDestroyOnLoad(gameObject);
-    }
-
-
-    public static GameController Instance
-    {
-        get { return instance; }
     }
 
 

@@ -44,10 +44,70 @@ public class WheatController : MonoBehaviour
     }
 
 
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (!isInfested && col.gameObject.CompareTag("HoverTrigger"))
+        {
+            // Also remove highlight from previously highlighted object
+            HoverShow();
+            if (Highlighted != null)
+            {
+                Highlighted.HoverHide();
+            }
+            Highlighted = this;
+        }
+    }
+
+
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        if (col.gameObject.CompareTag("HoverTrigger"))
+        {
+            HoverHide();
+            if (Highlighted == this)
+            {
+                Highlighted = null;
+            }
+        }
+    }
+
+
     public void Harvest()
     {
         audioSource.Play();
         RestartGrowth();
+    }
+
+
+    public void Infest()
+    {
+        if (growthTask != null)
+        {
+            StopCoroutine(growthTask);
+        }
+        
+        SetStage(0);
+        isInfested = true;
+        spriteRenderer.enabled = false;
+        StartCoroutine(Recover());
+    }
+
+
+    public void HoverShow()
+    {
+        hoverFrame.SetActive(true);
+    }
+
+
+    public void HoverHide()
+    {
+        hoverFrame.SetActive(false);
+    }
+
+
+    public bool IsGrown()
+    {
+        return currentStage == growthStages.Count - 1;
     }
 
 
@@ -87,20 +147,6 @@ public class WheatController : MonoBehaviour
     }
 
 
-    public void Infest()
-    {
-        if (growthTask != null)
-        {
-            StopCoroutine(growthTask);
-        }
-        
-        SetStage(0);
-        isInfested = true;
-        spriteRenderer.enabled = false;
-        StartCoroutine(Recover());
-    }
-
-
     private IEnumerator Recover()
     {
         recoveryProgressDisplay.enabled = true;
@@ -120,50 +166,4 @@ public class WheatController : MonoBehaviour
         recoveryProgressDisplay.enabled = false;
         RestartGrowth();
     }
-
-
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (!isInfested && col.gameObject.CompareTag("HoverTrigger"))
-        {
-            // Also remove highlight from previously highlighted object
-            HoverShow();
-            if (Highlighted != null)
-            {
-                Highlighted.HoverHide();
-            }
-            Highlighted = this;
-        }
-    }
-
-
-    private void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.gameObject.CompareTag("HoverTrigger"))
-        {
-            HoverHide();
-            if (Highlighted == this)
-            {
-                Highlighted = null;
-            }
-        }
-    }
-
-
-    public void HoverShow()
-    {
-        hoverFrame.SetActive(true);
-    }
-
-
-    public void HoverHide()
-    {
-        hoverFrame.SetActive(false);
-    }
-
-
-    public bool IsGrown()
-    {
-        return currentStage == growthStages.Count - 1;
-    }   
 }

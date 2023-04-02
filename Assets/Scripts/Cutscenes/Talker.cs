@@ -1,7 +1,6 @@
 using System.Collections;
-using UnityEngine;
 using TMPro;
-
+using UnityEngine;
 
 public class Talker : MonoBehaviour
 {
@@ -9,6 +8,7 @@ public class Talker : MonoBehaviour
     public TextMeshProUGUI dialogueBoxText;
 
     private CutsceneInput playerInput;
+
 
     private void Start()
     {
@@ -18,9 +18,9 @@ public class Talker : MonoBehaviour
 
     public IEnumerator Say(string text)
     {
-
         dialogueBoxContainer.SetActive(true);
         yield return StartCoroutine(CutsceneController.DrawText(dialogueBoxText, text));
+
         while (!playerInput.skipInput)
         {
             yield return null;

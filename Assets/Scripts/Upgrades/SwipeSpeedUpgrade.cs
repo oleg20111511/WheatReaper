@@ -6,7 +6,6 @@ public class SwipeSpeedUpgrade : Upgrade
 {
     private float currentSpeed = 1f;
 
-
     public override void Activate()
     {
         currentSpeed += 0.25f;

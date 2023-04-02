@@ -4,22 +4,9 @@ using UnityEngine;
 
 public class CutsceneInput : MonoBehaviour
 {
-    [SerializeField] private bool inputEnabled = true;
     public bool skipInput {get; private set;}
 
-    void Update()
-    {
-        if (inputEnabled)
-        {
-            HandleInput();
-        }
-    }
-
-
-    private void HandleInput()
-    {
-        skipInput = Input.GetMouseButtonDown(0);
-    }
+    [SerializeField] private bool inputEnabled = true;
 
 
     public void EnableInput()
@@ -33,4 +20,19 @@ public class CutsceneInput : MonoBehaviour
         skipInput = false;
         inputEnabled = false;
     }
+
+
+    private void Update()
+    {
+        if (inputEnabled)
+        {
+            HandleInput();
+        }
+    }
+
+
+    private void HandleInput()
+    {
+        skipInput = Input.GetMouseButtonDown(0);
+    }    
 }

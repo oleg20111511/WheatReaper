@@ -11,9 +11,8 @@ public class PestManager : MonoBehaviour
     [SerializeField] private List<Transform> spawnPoints;
     [SerializeField] private float spawnCooldownSeconds = 30f;
     [SerializeField] private float spawnCheckInterval = 1f;
+    [SerializeField] private bool canSpawn = false;
     [Range(1, 100)] [SerializeField] private int spawnChancePercent = 1;
-
-    private bool canSpawn = true;
 
 
     public static PestManager Instance
@@ -48,6 +47,12 @@ public class PestManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(SpawnCheck());
+    }
+
+
+    public void Enable()
+    {
+        canSpawn = true;
     }
 
 

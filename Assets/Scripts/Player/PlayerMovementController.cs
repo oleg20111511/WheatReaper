@@ -12,16 +12,14 @@ public class PlayerMovementController : MonoBehaviour
     private PlayerInput input;
     private Rigidbody2D rb2d;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         input = GetComponent<PlayerInput>();
         rb2d = GetComponent<Rigidbody2D>();
     }
 
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (canMove)
         {

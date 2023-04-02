@@ -45,5 +45,6 @@ public abstract class Upgrade : MonoBehaviour
         get { return level; }
     }
 
+
     public abstract void Activate();
 }
