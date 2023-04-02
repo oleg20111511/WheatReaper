@@ -16,14 +16,13 @@ public class PlayerHarvestController : MonoBehaviour
     [SerializeField] private float inventoryFullBlinkingDurationSeconds = 2;
     [SerializeField] private float inventoryFullSingleBlinkDurationSeconds = 0.2f;
     [SerializeField] private Color inventoryFullBlinkColor;
-    [SerializeField] private CartController cart;
 
     private PlayerInput input;
     private PlayerMovementController movementController;
     private int wheatOnHand = 0;
     private WheatController swipeHarvestTarget;
 
-    private int WheatOnHand
+    public int WheatOnHand
     {
         get { return wheatOnHand; }
         set {
@@ -33,7 +32,6 @@ public class PlayerHarvestController : MonoBehaviour
     }
 
 
-    // Start is called before the first frame update
     private void Start()
     {
         movementController = GetComponent<PlayerMovementController>();
@@ -41,17 +39,12 @@ public class PlayerHarvestController : MonoBehaviour
         WheatOnHand = 0;
     }
 
-    // Update is called once per frame
+
     private void Update()
     {
         if (canSwipe && input.harvestInput)
         {
             Swipe();
-        }
-
-        if (input.interactionInput)
-        {
-            TransferWheat();
         }
     }
 
@@ -133,18 +126,5 @@ public class PlayerHarvestController : MonoBehaviour
         }
 
         holdIndicator.color = Color.white;
-    }
-
-
-    private void TransferWheat()
-    {
-        // Check if cart is cart nearby
-        if (cart.IsInRange()) {
-            int cartSpace = cart.Capacity - cart.WheatAmount;
-            int transferAmount = Mathf.Min(wheatOnHand, cartSpace);
-
-            WheatOnHand -= transferAmount;
-            cart.WheatAmount += transferAmount;
-        }
     }
 }

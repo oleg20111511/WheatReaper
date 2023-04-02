@@ -10,12 +10,18 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private GameObject upgradeMenu;
     [SerializeField] private Transform upgradeMenuContent;
 
-    private List<Upgrade> availableUpgrades = new List<Upgrade>();
+    public List<Upgrade> availableUpgrades {get; private set;} = new List<Upgrade>();
 
 
-    public UpgradeManager Instance
+    public static UpgradeManager Instance
     {
         get { return instance; }
+    }
+
+    
+    public bool IsMenuOpen
+    {
+        get { return upgradeMenu.activeSelf; }
     }
 
 
@@ -50,12 +56,14 @@ public class UpgradeManager : MonoBehaviour
 
     public void OpenMenu()
     {
+        PlayerController.Instance.playerInput.DisableInput();
         upgradeMenu.SetActive(true);
     }
 
 
     public void CloseMenu()
     {
+        PlayerController.Instance.playerInput.EnableInput();
         upgradeMenu.SetActive(false);
     }
 }

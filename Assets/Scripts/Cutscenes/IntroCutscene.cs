@@ -39,7 +39,7 @@ public class IntroCutscene : CutsceneController
         yield return StartCoroutine(reaperTalker.Say("Mortal! Tremble! I've come to haverst your miserable soul!"));
         reaperTalker.dialogueBoxContainer.SetActive(false);
 
-        farmer.transform.localScale = new Vector3(-1, 1, 1);
+        farmer.GetComponent<SpriteRenderer>().flipX = true;
         yield return StartCoroutine(farmerTalker.Say("What? Oh, harvest, yes, just in time! You must be the new guy they promised to send, finally!"));
 
         yield return StartCoroutine(farmerTalker.Say("I really have to take a break, so go ahead and start without me. Harvest those fields over there and bring your harvest here to this cart"));

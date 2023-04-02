@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(AudioSource))]
-public class CartController : MonoBehaviour
+public class CartController : MonoBehaviour, IInteractable
 {
     [SerializeField] private int capacity = 30;
     [SerializeField] private List<Sprite> sprites;
@@ -30,10 +30,17 @@ public class CartController : MonoBehaviour
         get { return capacity; }
     }
 
+
     public int WheatAmount
     {
         get { return wheatAmount; }
         set { SetWheatAmount(value); }
+    }
+
+
+    public bool InteractionEnabled
+    {
+        get { return !movementTarget; }
     }
 
 
@@ -52,7 +59,8 @@ public class CartController : MonoBehaviour
         {
             if (movementTarget == outPosition)
             {
-                SetWheatAmount(0);
+                PlayerController.Instance.Balance += WheatAmount;
+                WheatAmount = 0;
                 MoveTo(inPosition);
             }
             else
@@ -63,31 +71,33 @@ public class CartController : MonoBehaviour
             }
         }
     }
+    
 
-
-    private void OnTriggerEnter2D(Collider2D col)
+    public void Approach()
     {
-        if (col.CompareTag("Player"))
+        if (InteractionEnabled)
         {
             keyPrompt.SetActive(true);
         }
     }
 
 
-    private void OnTriggerExit2D(Collider2D col)
+    public void Leave()
     {
-        if (col.CompareTag("Player"))
-        {
-            keyPrompt.SetActive(false);
-        }
+        keyPrompt.SetActive(false);
     }
 
 
-    // Check if player is within wheat transferring range. Since that happens when player enters trigger,
-    // and when that happens keyprompt is enabled, this function returns state of keyprompt
-    public bool IsInRange()
+    public void Interact()
     {
-        return keyPrompt.activeSelf;
+        // Transfer wheat from player to cart
+        PlayerHarvestController harvestController = PlayerController.Instance.harvestController;
+
+        int cartSpace = Capacity - WheatAmount;
+        int transferAmount = Mathf.Min(harvestController.WheatOnHand, cartSpace);
+
+        harvestController.WheatOnHand -= transferAmount;
+        WheatAmount += transferAmount;
     }
 
 
