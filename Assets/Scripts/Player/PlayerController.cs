@@ -46,10 +46,9 @@ public class PlayerController : MonoBehaviour
             }
             if (balance < value)
             {
-                totalEarnings =+ value;
+                totalEarnings += value - balance;
             }
             balance = value;
-            
         }
     }
 

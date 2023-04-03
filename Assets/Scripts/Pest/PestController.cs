@@ -120,7 +120,7 @@ public class PestController : MonoBehaviour
     private IEnumerator DoDamage()
     {
         IPestVulnerability targetVulnerability = target.GetComponent<IPestVulnerability>();
-        // Check if target is still grown
+        // Check if target is still vulnerable
         if (!targetVulnerability.CanBeDamagedByPest)
         {
             ChangeTarget(false);
@@ -129,6 +129,12 @@ public class PestController : MonoBehaviour
 
         currentState = PestState.EatingCrop;
         yield return new WaitForSeconds(cropEatingDuration);
+        // Check if target is still vulnerable
+        if (!targetVulnerability.CanBeDamagedByPest)
+        {
+            ChangeTarget(false);
+            yield break;
+        }
         eatingTask = null;
         targetVulnerability.DamageByPest();
         objectsDamaged++;

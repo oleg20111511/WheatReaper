@@ -59,6 +59,7 @@ public class UpgradeManager : MonoBehaviour
         {
             allUpgrades.Add(upgrade);
         }
+        LoadNewUpgrades();
     }
 
 

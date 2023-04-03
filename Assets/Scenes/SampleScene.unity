@@ -291,6 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d11d31a332ee7a5408ac3494c7ee9851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  reward: 3
   pestsLayerMask:
     serializedVersion: 2
     m_Bits: 512
@@ -300,10 +301,12 @@ MonoBehaviour:
   - {fileID: 66361289}
   - {fileID: 1865034750}
   - {fileID: 1364751960}
-  spawnCooldownSeconds: 30
+  spawnCooldownSeconds: 15
   spawnCheckInterval: 1
   canSpawn: 0
-  spawnChancePercent: 10
+  packSize: 2
+  packSizeRandomizationOffset: 1
+  spawnChancePercent: 5
 --- !u!1 &66361288
 GameObject:
   m_ObjectHideFlags: 0
