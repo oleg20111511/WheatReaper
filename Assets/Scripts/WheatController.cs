@@ -11,13 +11,15 @@ public class WheatController : MonoBehaviour
     public static WheatController Highlighted {get; private set;}  // Used to assert that only one wheat is highlighted at a time
     public static List<WheatController> AllWheatControllers {get; private set;} = new List<WheatController>();
 
+    
     [SerializeField] private List<Sprite> growthStages;
-    [SerializeField] private int minStageDurationMilliseconds = 10000;
-    [SerializeField] private int maxStageDurationMilliseconds = 20000;
+    [SerializeField] private int stageDurationMilliseconds = 15000;
+    [SerializeField] private int stageDurationRandomizationRange = 10000;
     [SerializeField] private GameObject hoverFrame;
     [SerializeField] private GameObject exclamationMark;
     [SerializeField] private float infestationRecoveryDurationSeconds = 30f;
     [SerializeField] private Image recoveryProgressDisplay;
+    
 
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
@@ -69,6 +71,13 @@ public class WheatController : MonoBehaviour
                 Highlighted = null;
             }
         }
+    }
+
+
+    public void ChangeGrowthDuration(int change)
+    {
+        stageDurationMilliseconds += change;
+        stageDurationRandomizationRange += change / 2;
     }
 
 
@@ -138,7 +147,8 @@ public class WheatController : MonoBehaviour
     {
         while(currentStage < growthStages.Count - 1)
         {
-            float waitTime = Random.Range(minStageDurationMilliseconds, maxStageDurationMilliseconds);
+            int delta = stageDurationRandomizationRange / 2;
+            float waitTime = Random.Range(stageDurationMilliseconds - delta, stageDurationMilliseconds + delta);
             waitTime /= 1000f;
             yield return new WaitForSeconds(waitTime);
             SetStage(currentStage + 1);
