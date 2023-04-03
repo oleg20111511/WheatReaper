@@ -80,14 +80,6 @@ public class PestManager : MonoBehaviour
 
     private void SpawnPest()
     {
-        // Don't spawn if there's no fully grown field 
-        // WARNING: This means that cooldown will still start if no pests spawns.
-        // This encourages player to keep the fields harvested
-        if (!WheatController.AllWheatControllers.Exists(w => w.IsGrown()))
-        {
-            return;
-        }
-
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
         GameObject.Instantiate(pestPrefab, spawnPoint.position, spawnPoint.rotation);
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(AudioSource))]
-public class CartController : MonoBehaviour, IInteractable
+public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
 {
     private static CartController instance;
 
@@ -49,6 +49,12 @@ public class CartController : MonoBehaviour, IInteractable
     public bool InteractionEnabled
     {
         get { return !movementTarget; }
+    }
+
+
+    public bool CanBeDamagedByPest
+    {
+        get { return wheatAmount > 0; }
     }
 
 
@@ -123,6 +129,12 @@ public class CartController : MonoBehaviour, IInteractable
     public void EnableHarvestTeleportation()
     {
         wheatTransferSound = null;
+    }
+
+
+    public void DamageByPest()
+    {
+        WheatAmount -= 1;
     }
 
 

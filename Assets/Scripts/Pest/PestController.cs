@@ -17,15 +17,15 @@ public class PestController : MonoBehaviour
 
     [SerializeField] private int movementSpeed = 10;
     [SerializeField] private float cropEatingDuration = 4f;
-    [SerializeField] private int eatingLimit = 3;
+    [SerializeField] private int damageLimit = 3;
 
     private Rigidbody2D rb2d;
 
     private Transform movementTarget;
-    private WheatController target;
+    private GameObject target;
     private PestState currentState;
     private Coroutine eatingTask;
-    private int fieldsEaten = 0;
+    private int objectsDamaged = 0;
 
 
     private void Awake()
@@ -41,7 +41,7 @@ public class PestController : MonoBehaviour
 
     private void Start()
     {
-        ChangeTarget();
+        ChangeTarget(true);
     }
 
 
@@ -51,7 +51,7 @@ public class PestController : MonoBehaviour
         {
             rb2d.velocity = Vector2.zero;
             movementTarget = null;
-            eatingTask = StartCoroutine(EatCrop());
+            eatingTask = StartCoroutine(DoDamage());
         }
         else if (currentState == PestState.RunningAway && Utils.IsClose(movementTarget, transform))
         {
@@ -77,10 +77,10 @@ public class PestController : MonoBehaviour
     }
 
 
-    private void ChangeTarget()
+    private void ChangeTarget(bool random)
     {
-        target = FindRandomTarget();
-        if (target)
+        FindTarget(random);
+        if (target != null)
         {
             currentState = PestState.RunningToField;
             MoveTo(target.transform);
@@ -92,56 +92,50 @@ public class PestController : MonoBehaviour
     }
 
 
-    private WheatController FindRandomTarget()
+    private void FindTarget(bool random)
     {
-        List<WheatController> grownFields = WheatController.AllWheatControllers.FindAll(w => w.IsGrown());
+        List<WheatController> grownFields = WheatController.AllWheatControllers.FindAll(w => w.CanBeDamagedByPest);
         if (grownFields.Count > 0)
         {
-            target = grownFields[Random.Range(0, grownFields.Count)];
+            if (random)
+            {
+                target = grownFields[Random.Range(0, grownFields.Count)].gameObject;
+            }
+            else
+            {
+                target = Utils.FindClosestObject<WheatController>(grownFields, transform, w => w.transform).gameObject;
+            }
+        }
+        else if (CartController.Instance.CanBeDamagedByPest)
+        {
+            target = CartController.Instance.gameObject;
         }
         else
         {
             target = null;
         }
-
-        return target;
     }
 
 
-    private WheatController FindClosestTarget()
+    private IEnumerator DoDamage()
     {
-        List<WheatController> grownFields = WheatController.AllWheatControllers.FindAll(w => w.IsGrown());
-        if (grownFields.Count > 0)
-        {
-            target = Utils.FindClosestObject<WheatController>(grownFields, transform, w => w.transform);
-        }
-        else
-        {
-            target = null;
-        }
-
-        return target;
-    }
-
-
-    private IEnumerator EatCrop()
-    {
+        IPestVulnerability targetVulnerability = target.GetComponent<IPestVulnerability>();
         // Check if target is still grown
-        if (!target.IsGrown())
+        if (!targetVulnerability.CanBeDamagedByPest)
         {
-            ChangeTarget();
+            ChangeTarget(false);
             yield break;
         }
 
         currentState = PestState.EatingCrop;
         yield return new WaitForSeconds(cropEatingDuration);
         eatingTask = null;
-        target.Infest();
-        fieldsEaten++;
+        targetVulnerability.DamageByPest();
+        objectsDamaged++;
 
-        if (fieldsEaten < eatingLimit)
+        if (objectsDamaged < damageLimit)
         {
-            ChangeTarget();
+            ChangeTarget(false);
         }
         else
         {

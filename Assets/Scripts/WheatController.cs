@@ -6,7 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(AudioSource))]
-public class WheatController : MonoBehaviour
+public class WheatController : MonoBehaviour, IPestVulnerability
 {
     public static WheatController Highlighted {get; private set;}  // Used to assert that only one wheat is highlighted at a time
     public static List<WheatController> AllWheatControllers {get; private set;} = new List<WheatController>();
@@ -20,7 +20,6 @@ public class WheatController : MonoBehaviour
     [SerializeField] private GameObject exclamationMark;
     [SerializeField] private float infestationRecoveryDurationSeconds = 30f;
     [SerializeField] private Image recoveryProgressDisplay;
-    
 
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
@@ -33,6 +32,11 @@ public class WheatController : MonoBehaviour
     {
         get { return wheatPerField; }
         set { wheatPerField = value; }
+    }
+
+    public bool CanBeDamagedByPest
+    {
+        get { return !isInfested && IsGrown(); }
     }
 
 
@@ -82,20 +86,7 @@ public class WheatController : MonoBehaviour
     }
 
 
-    public void ChangeGrowthDuration(int change)
-    {
-        stageDurationMilliseconds += change;
-    }
-
-
-    public void Harvest()
-    {
-        audioSource.Play();
-        RestartGrowth();
-    }
-
-
-    public void Infest()
+    public void DamageByPest()
     {
         if (growthTask != null)
         {
@@ -106,6 +97,19 @@ public class WheatController : MonoBehaviour
         isInfested = true;
         spriteRenderer.enabled = false;
         StartCoroutine(Recover());
+    }
+
+
+    public void ChangeGrowthDuration(int change)
+    {
+        stageDurationMilliseconds += change;
+    }
+
+
+    public void Harvest()
+    {
+        audioSource.Play();
+        RestartGrowth();
     }
 
 
