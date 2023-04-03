@@ -5,6 +5,7 @@ using UnityEngine;
 public class PestManager : MonoBehaviour
 {
     private static PestManager instance;
+    private static int reward = 5;
 
     [SerializeField] private LayerMask pestsLayerMask;
     [SerializeField] private GameObject pestPrefab;
@@ -18,6 +19,13 @@ public class PestManager : MonoBehaviour
     public static PestManager Instance
     {
         get { return instance; }
+    }
+
+
+    public static int KillReward
+    {
+        get { return reward; }
+        set { reward = value; }
     }
 
 

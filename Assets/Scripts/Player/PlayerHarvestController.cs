@@ -94,6 +94,7 @@ public class PlayerHarvestController : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapCircleAll(attackPosition.position, attackRadius, PestManager.Instance.PestsLayerMask);
         foreach (Collider2D col in colliders)
         {
+            PlayerController.Instance.Balance += PestManager.KillReward;
             col.GetComponent<PestController>().GetHit();
         }
     }
