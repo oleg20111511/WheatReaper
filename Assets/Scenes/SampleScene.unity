@@ -8778,6 +8778,7 @@ GameObject:
   - component: {fileID: 2092603346}
   - component: {fileID: 2092603344}
   - component: {fileID: 2092603347}
+  - component: {fileID: 2092603348}
   m_Layer: 0
   m_Name: UpgradeManager
   m_TagString: Untagged
@@ -8872,8 +8873,27 @@ MonoBehaviour:
   costByLevel: 1e0000003200000064000000c8000000f4010000
   isAvailable: 1
   icon: {fileID: 0}
+  unlocks:
+  - {fileID: 2092603348}
+  growthDurationDecrease: 2000
+--- !u!114 &2092603348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092603341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb2179990ee5bfc45912fe248cab9e85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: RICH LAND
+  description: Increases amount of yield you get from harvesting a single field
+  costByLevel: 1e00000064000000fa000000f4010000f4010000e8030000e8030000e8030000e8030000e8030000
+  isAvailable: 0
+  icon: {fileID: 0}
   unlocks: []
-  growthDurationDecrease: 1500
 --- !u!1001 &507058582507865404
 PrefabInstance:
   m_ObjectHideFlags: 0

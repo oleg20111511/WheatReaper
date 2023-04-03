@@ -125,7 +125,7 @@ public class PlayerHarvestController : MonoBehaviour
         }
         if (swipeHarvestTarget && swipeHarvestTarget.IsGrown())
         {
-            WheatOnHand += 1;
+            WheatOnHand += WheatController.WheatPerField;
             swipeHarvestTarget.Harvest();
         }
     }

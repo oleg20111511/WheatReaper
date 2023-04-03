@@ -428,8 +428,8 @@ MonoBehaviour:
   - {fileID: -1628661918, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
   - {fileID: -1084605602, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
   - {fileID: -1342419187, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
-  minStageDurationMilliseconds: 10000
-  maxStageDurationMilliseconds: 20000
+  stageDurationMilliseconds: 15000
+  stageDurationRandomizationValue: 0.3
   hoverFrame: {fileID: 6714543078065721097}
   exclamationMark: {fileID: 8296768168358214505}
   infestationRecoveryDurationSeconds: 30

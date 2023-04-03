@@ -11,10 +11,11 @@ public class WheatController : MonoBehaviour
     public static WheatController Highlighted {get; private set;}  // Used to assert that only one wheat is highlighted at a time
     public static List<WheatController> AllWheatControllers {get; private set;} = new List<WheatController>();
 
+    private static int wheatPerField = 1;
     
     [SerializeField] private List<Sprite> growthStages;
     [SerializeField] private int stageDurationMilliseconds = 15000;
-    [SerializeField] private int stageDurationRandomizationRange = 10000;
+    [SerializeField] private float stageDurationRandomizationValue = 0.5f;
     [SerializeField] private GameObject hoverFrame;
     [SerializeField] private GameObject exclamationMark;
     [SerializeField] private float infestationRecoveryDurationSeconds = 30f;
@@ -28,6 +29,13 @@ public class WheatController : MonoBehaviour
     private bool isInfested = false;
 
     
+    public static int WheatPerField
+    {
+        get { return wheatPerField; }
+        set { wheatPerField = value; }
+    }
+
+
     private void Awake()
     {
         if (!AllWheatControllers.Contains(this))
@@ -77,7 +85,6 @@ public class WheatController : MonoBehaviour
     public void ChangeGrowthDuration(int change)
     {
         stageDurationMilliseconds += change;
-        stageDurationRandomizationRange += change / 2;
     }
 
 
@@ -147,7 +154,7 @@ public class WheatController : MonoBehaviour
     {
         while(currentStage < growthStages.Count - 1)
         {
-            int delta = stageDurationRandomizationRange / 2;
+            float delta = stageDurationMilliseconds * stageDurationRandomizationValue;
             float waitTime = Random.Range(stageDurationMilliseconds - delta, stageDurationMilliseconds + delta);
             waitTime /= 1000f;
             yield return new WaitForSeconds(waitTime);
