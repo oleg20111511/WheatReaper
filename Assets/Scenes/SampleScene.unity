@@ -303,7 +303,7 @@ MonoBehaviour:
   spawnCooldownSeconds: 30
   spawnCheckInterval: 1
   canSpawn: 0
-  spawnChancePercent: 1
+  spawnChancePercent: 10
 --- !u!1 &66361288
 GameObject:
   m_ObjectHideFlags: 0
@@ -8779,6 +8779,7 @@ GameObject:
   - component: {fileID: 2092603344}
   - component: {fileID: 2092603347}
   - component: {fileID: 2092603348}
+  - component: {fileID: 2092603349}
   m_Layer: 0
   m_Name: UpgradeManager
   m_TagString: Untagged
@@ -8815,11 +8816,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: SOWING SACK
   description: Increases your bag size, allowing you to carry more harvest.
-  costByLevel: 0a0000003200000064000000f4010000
+  costByLevel: 0a0000003200000064000000
   isAvailable: 1
   icon: {fileID: 0}
-  unlocks: []
-  bagSizes: 0f0000001e0000006400000010270000
+  unlocks:
+  - level: 3
+    upgrade: {fileID: 2092603349}
+  bagSizes: 0f0000001e00000064000000
 --- !u!114 &2092603345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8874,7 +8877,8 @@ MonoBehaviour:
   isAvailable: 1
   icon: {fileID: 0}
   unlocks:
-  - {fileID: 2092603348}
+  - level: 2
+    upgrade: {fileID: 2092603348}
   growthDurationDecrease: 2000
 --- !u!114 &2092603348
 MonoBehaviour:
@@ -8891,6 +8895,24 @@ MonoBehaviour:
   upgradeName: RICH LAND
   description: Increases amount of yield you get from harvesting a single field
   costByLevel: 1e00000064000000fa000000f4010000f4010000e8030000e8030000e8030000e8030000e8030000
+  isAvailable: 0
+  icon: {fileID: 0}
+  unlocks: []
+--- !u!114 &2092603349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092603341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d410f1cf09e084987534e305de643b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: CROP TELEPORTATION
+  description: After harvesting a field, yield teleports directly to delivery cart.
+  costByLevel: e8030000
   isAvailable: 0
   icon: {fileID: 0}
   unlocks: []

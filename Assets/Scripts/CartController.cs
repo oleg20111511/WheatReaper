@@ -7,6 +7,8 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class CartController : MonoBehaviour, IInteractable
 {
+    private static CartController instance;
+
     [SerializeField] private int capacity = 30;
     [SerializeField] private List<Sprite> sprites;
     [SerializeField] private List<int> fullnessBreakpoints;  // Contains ints that act as references for sprite-change condition. Must match length of sprites
@@ -25,6 +27,12 @@ public class CartController : MonoBehaviour, IInteractable
     private int wheatAmount = 0;
 
     
+    public static CartController Instance
+    {
+        get { return instance; }
+    }
+
+
     public int Capacity
     {
         get { return capacity; }
@@ -44,8 +52,15 @@ public class CartController : MonoBehaviour, IInteractable
     }
 
 
-    private void Start()
+    private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
@@ -90,6 +105,10 @@ public class CartController : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        if (WheatAmount == capacity)
+        {
+            return;
+        }
         // Transfer wheat from player to cart
         PlayerHarvestController harvestController = PlayerController.Instance.harvestController;
 
@@ -98,6 +117,12 @@ public class CartController : MonoBehaviour, IInteractable
 
         harvestController.WheatOnHand -= transferAmount;
         WheatAmount += transferAmount;
+    }
+
+
+    public void EnableHarvestTeleportation()
+    {
+        wheatTransferSound = null;
     }
 
 

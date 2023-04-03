@@ -16,6 +16,7 @@ public class PlayerHarvestController : MonoBehaviour
     [SerializeField] private float inventoryFullBlinkingDurationSeconds = 2;
     [SerializeField] private float inventoryFullSingleBlinkDurationSeconds = 0.2f;
     [SerializeField] private Color inventoryFullBlinkColor;
+    [SerializeField] private bool harvestTeleportationEnabled = false;
 
     private PlayerInput input;
     private PlayerMovementController movementController;
@@ -67,6 +68,12 @@ public class PlayerHarvestController : MonoBehaviour
     public void EnableSwipe()
     {
         swipeEnabled = true;
+    }
+
+
+    public void EnableHarvestTeleportation()
+    {
+        harvestTeleportationEnabled = true;
     }
 
 
@@ -128,6 +135,10 @@ public class PlayerHarvestController : MonoBehaviour
         {
             WheatOnHand += WheatController.WheatPerField;
             swipeHarvestTarget.Harvest();
+            if (harvestTeleportationEnabled)
+            {
+                CartController.Instance.Interact();
+            }
         }
     }
 

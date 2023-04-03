@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public abstract class Upgrade : MonoBehaviour
 {
@@ -9,11 +11,15 @@ public abstract class Upgrade : MonoBehaviour
     [SerializeField] protected int[] costByLevel;
     [SerializeField] protected bool isAvailable = false;
     [SerializeField] protected Sprite icon;
-    [SerializeField] protected List<Upgrade> unlocks;
+    [Serializable]
+    public struct UnlockableUpgrade
+    {
+        public int level;
+        public Upgrade upgrade;
+    }
+    [SerializeField] protected List<UnlockableUpgrade> unlocks;
 
     protected int level = 0;
-    
-    protected bool wasActivatedBefore = false;
 
 
     public string UpgradeName
@@ -51,6 +57,12 @@ public abstract class Upgrade : MonoBehaviour
     public abstract void Activate();
 
 
+    private void Awake()
+    {
+
+    }
+
+
     protected void OnActivate()
     {
         level++;
@@ -58,12 +70,12 @@ public abstract class Upgrade : MonoBehaviour
         {
             IsAvailable = false;
         }
-        if (!wasActivatedBefore)
+
+        foreach (UnlockableUpgrade unlockableUpgrade in unlocks)
         {
-            wasActivatedBefore = true;
-            foreach (Upgrade upgrade in unlocks)
+            if (unlockableUpgrade.level == CurrentLevel)
             {
-                upgrade.IsAvailable = true;
+                unlockableUpgrade.upgrade.IsAvailable = true;
             }
         }
     }
