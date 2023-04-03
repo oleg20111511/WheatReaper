@@ -95,6 +95,7 @@ public class FarmerController : MonoBehaviour, IInteractable
     public void Interact()
     {
         interationFlag = true;
+        state = FarmerState.Idle;
         keyPrompt.SetActive(false);
     }
 
@@ -141,11 +142,6 @@ public class FarmerController : MonoBehaviour, IInteractable
         }
 
         talker.dialogueBoxContainer.SetActive(true);
-        
-        if (PlayerController.Instance.totalEarnings >= 30)
-        {
-            yield return StartCoroutine(OfferUpgrades());
-        }
 
         yield return StartCoroutine(CutsceneController.DrawText(talker.dialogueBoxText, comments[commentIndex]));
         if (commentIndex < comments.Count - 1) {
@@ -155,6 +151,11 @@ public class FarmerController : MonoBehaviour, IInteractable
             commentIndex = 0;
         }
         yield return new WaitForSeconds(5f);
+
+        if (PlayerController.Instance.totalEarnings >= 30)
+        {
+            yield return StartCoroutine(OfferUpgrades());
+        }
 
         talker.dialogueBoxContainer.SetActive(false);
 
@@ -194,7 +195,6 @@ public class FarmerController : MonoBehaviour, IInteractable
         {
             if (interationFlag)
             {
-                state = FarmerState.Idle;
                 if (!upgradesExplained)
                 {
                     yield return StartCoroutine(ExplainUpgrades());

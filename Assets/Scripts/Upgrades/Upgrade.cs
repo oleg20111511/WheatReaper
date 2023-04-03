@@ -10,7 +10,7 @@ public abstract class Upgrade : MonoBehaviour
     [SerializeField] protected bool isAvailable = false;
     [SerializeField] protected int maxLevel = 1;
     [SerializeField] protected Sprite icon;
-    [SerializeField] protected List<Upgrade> unlocks;
+    public List<Upgrade> unlocks;
 
     protected int level = 0;
 
@@ -22,7 +22,7 @@ public abstract class Upgrade : MonoBehaviour
 
     public string Description
     {
-        get { return Description; }
+        get { return description; }
     }
 
     public int Cost

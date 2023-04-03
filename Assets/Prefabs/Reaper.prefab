@@ -85,7 +85,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2025922813
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1454565422, guid: 071f5d4a130d5664898eebab1ec27dd4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 485885b47fcda744c85401e89db2f8c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canSwipe: 1
+  swipeEnabled: 1
   harvestPosition: {fileID: 224491153094326513}
   attackPosition: {fileID: 5440825703388309814}
   harvestLayerMask:
