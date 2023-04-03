@@ -32,10 +32,18 @@ public class PlayerHarvestController : MonoBehaviour
         }
     }
 
-
     public bool CanSwipe
     {
         get { return swipeEnabled && swipeAvailable; }
+    }
+
+    public int BagSize
+    {
+        get { return maxHoldSize; }
+        set {
+            maxHoldSize = value;
+            holdIndicator.text = string.Format("{0}/{1}", WheatOnHand, value);
+        }
     }
 
 
@@ -110,7 +118,7 @@ public class PlayerHarvestController : MonoBehaviour
 
     private void Harvest()
     {
-        if (wheatOnHand == maxHoldSize)
+        if (WheatOnHand == maxHoldSize)
         {
             StartCoroutine(BlinkWheatIndicator());
             return;

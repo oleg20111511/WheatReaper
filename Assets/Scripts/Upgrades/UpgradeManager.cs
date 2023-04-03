@@ -11,9 +11,8 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private GameObject upgradeMenu;
     [SerializeField] private Transform upgradeMenuContent;
     [SerializeField] private TextMeshProUGUI balanceText;
-
-    public List<Upgrade> availableUpgrades {get; private set;} = new List<Upgrade>();
-    public List<Upgrade> upgradeUnlockQueue {get; private set;} = new List<Upgrade>();
+    [SerializeField] private List<Upgrade> availableUpgrades = new List<Upgrade>();
+    private List<Upgrade> allUpgrades = new List<Upgrade>();
 
     
     public static UpgradeManager Instance
@@ -25,6 +24,12 @@ public class UpgradeManager : MonoBehaviour
     public bool IsMenuOpen
     {
         get { return upgradeMenu.activeSelf; }
+    }
+
+
+    public int AvailableUpgrades
+    {
+        get { return availableUpgrades.Count; }
     }
 
 
@@ -50,14 +55,20 @@ public class UpgradeManager : MonoBehaviour
         instance = this;
 
         Upgrade[] upgrades = gameObject.GetComponents<Upgrade>();
-        foreach (Upgrade upgrade in upgrades)
+        foreach(Upgrade upgrade in upgrades)
         {
-            if (upgrade.IsAvailable)
-            {
-                upgradeUnlockQueue.Add(upgrade);
-            }
+            allUpgrades.Add(upgrade);
         }
-        InstantiateUpgradesFromQueue();
+    }
+
+
+    private void Update()
+    {
+        if (Debug.isDebugBuild && Input.GetKeyDown(KeyCode.T))
+        {
+            Balance += 30;
+            OpenMenu();
+        }
     }
 
 
@@ -65,7 +76,7 @@ public class UpgradeManager : MonoBehaviour
     {
         PlayerController.Instance.Freeze();
         UpdateBalanceDisplay();
-        InstantiateUpgradesFromQueue();
+        LoadNewUpgrades();
         upgradeMenu.SetActive(true);
     }
 
@@ -77,14 +88,9 @@ public class UpgradeManager : MonoBehaviour
     }
 
 
-    public void UpdateBalanceDisplay()
-    {
-        balanceText.text = Balance.ToString();
-    }
-
-
     public void Purchase(UpgradeUIContainer upgradeUI)
     {
+        // 1) Check that upgrade can be purchased
         Upgrade upgrade = upgradeUI.AssignedUpgrade;
         if (!availableUpgrades.Contains(upgrade))
         {
@@ -95,32 +101,32 @@ public class UpgradeManager : MonoBehaviour
             return;
         }
 
+        // 2) Apply upgrade's effect
         Balance -= upgrade.Cost;
         upgrade.Activate();        
 
-        if (upgrade.unlocks.Count > 0)
-        {
-            upgradeUnlockQueue.AddRange(upgrade.unlocks);
-            upgrade.unlocks.Clear();
-        }
-        
-        // Remove UI representation, but only remove from available upgrades list if max level reached
-        if (upgrade.CurrentLevel >= upgrade.MaxLevel)
-        {
-            availableUpgrades.Remove(upgrade);
-        }
+        // 3) Remove this upgrade from menu
+        availableUpgrades.Remove(upgrade);
         GameObject.Destroy(upgradeUI.gameObject);
     }
 
 
-    private void InstantiateUpgradesFromQueue()
+    private void UpdateBalanceDisplay()
     {
-        foreach (Upgrade upgrade in upgradeUnlockQueue)
+        balanceText.text = Balance.ToString();
+    }
+
+
+    private void LoadNewUpgrades()
+    {
+        foreach (Upgrade upgrade in allUpgrades)
         {
-            availableUpgrades.Add(upgrade);
-            UpgradeUIContainer upgradeUI = GameObject.Instantiate(upgradeUIContainerPrefab, upgradeMenuContent).GetComponent<UpgradeUIContainer>();
-            upgradeUI.AssignedUpgrade = upgrade;
+            if (upgrade.IsAvailable && !availableUpgrades.Contains(upgrade))
+            {
+                availableUpgrades.Add(upgrade);
+                UpgradeUIContainer upgradeUI = GameObject.Instantiate(upgradeUIContainerPrefab, upgradeMenuContent).GetComponent<UpgradeUIContainer>();
+                upgradeUI.AssignedUpgrade = upgrade;
+            }
         }
-        upgradeUnlockQueue.Clear();
     }
 }

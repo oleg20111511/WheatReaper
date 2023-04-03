@@ -22,11 +22,16 @@ public class UpgradeUIContainer : MonoBehaviour
             upgrade = value;
             upgradeName.text = upgrade.UpgradeName;
             description.text = upgrade.Description;
-            cost.text = upgrade.Cost.ToString();
+            cost.text = "Cost: " + upgrade.Cost.ToString();
             if (upgrade.MaxLevel > 1)
             {
                 level.text = (upgrade.CurrentLevel + 1).ToString();
-                maxLevel.text = upgrade.MaxLevel.ToString();
+                maxLevel.text = "Max level: " + upgrade.MaxLevel.ToString();
+            }
+            else
+            {
+                level.text = "";
+                maxLevel.text = "";
             }
         }
     }

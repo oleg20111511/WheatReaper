@@ -152,7 +152,7 @@ public class FarmerController : MonoBehaviour, IInteractable
         }
         yield return new WaitForSeconds(5f);
 
-        if (PlayerController.Instance.totalEarnings >= 30)
+        if (PlayerController.Instance.totalEarnings > 0)
         {
             yield return StartCoroutine(OfferUpgrades());
         }
@@ -166,7 +166,7 @@ public class FarmerController : MonoBehaviour, IInteractable
 
     private IEnumerator OfferUpgrades()
     {
-        if (UpgradeManager.Instance.availableUpgrades.Count == 0)
+        if (UpgradeManager.Instance.AvailableUpgrades == 0)
         {
             yield break;
         }
@@ -221,7 +221,12 @@ public class FarmerController : MonoBehaviour, IInteractable
         PlayerController.Instance.Freeze();
         PlayerController.Instance.cutsceneInput.EnableInput();
         
-        yield return StartCoroutine(talker.Say("Upgrades!!!"));
+        yield return StartCoroutine(talker.Say("You've been working quite hard to harvest those crops."));
+        yield return StartCoroutine(talker.Say("I have your pay right here."));
+        yield return StartCoroutine(talker.Say("Oh, and management guys said that you can pay to order some improvements to your work environment."));
+        yield return StartCoroutine(talker.Say("Kind of a weird decision on their end to make you pay for it though, if you ask me."));
+        yield return StartCoroutine(talker.Say("But anyway, tell me if you want to upgrade anything here and I'll pass it on."));
+        yield return StartCoroutine(talker.Say("And you can do that only when I come here, obviously, so plan your upgrades carefully."));
 
         PlayerController.Instance.cutsceneInput.DisableInput();
     }

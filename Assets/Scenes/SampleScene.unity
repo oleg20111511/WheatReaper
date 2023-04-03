@@ -8775,9 +8775,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2092603342}
   - component: {fileID: 2092603345}
-  - component: {fileID: 2092603344}
-  - component: {fileID: 2092603343}
   - component: {fileID: 2092603346}
+  - component: {fileID: 2092603344}
   m_Layer: 0
   m_Name: UpgradeManager
   m_TagString: Untagged
@@ -8800,26 +8799,6 @@ Transform:
   m_Father: {fileID: 1657830950}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2092603343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2092603341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94aa5ca5707477d4096037eb5d2b3473, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgradeName: BROAD SCYTHE
-  description: Increases harvesting area, allowing you to harvest multiple fields
-    at once.
-  cost: 2
-  isAvailable: 0
-  maxLevel: 1
-  icon: {fileID: 0}
-  unlocks: []
 --- !u!114 &2092603344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8833,12 +8812,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgradeName: 
-  description: 
-  cost: 30
+  description: Increases your bag size, allowing you to carry more harvest.
+  costByLevel: 0a0000003200000064000000f4010000
   isAvailable: 0
-  maxLevel: 1
   icon: {fileID: 0}
   unlocks: []
+  bagSizes: 0f0000001e0000006400000010270000
 --- !u!114 &2092603345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8855,6 +8834,7 @@ MonoBehaviour:
   upgradeMenu: {fileID: 1814142942}
   upgradeMenuContent: {fileID: 1337572021}
   balanceText: {fileID: 1672200259}
+  availableUpgrades: []
 --- !u!114 &2092603346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8869,12 +8849,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: DEADLY REFLEXES
   description: Increases swipe speed, resulting in faster harvesting and pest disposal.
-  cost: 1
+  costByLevel: 0a0000001e00000032000000
   isAvailable: 1
-  maxLevel: 3
   icon: {fileID: 0}
   unlocks:
-  - {fileID: 2092603343}
+  - {fileID: 2092603344}
+  speedIncrease: 0.25
 --- !u!1001 &507058582507865404
 PrefabInstance:
   m_ObjectHideFlags: 0
