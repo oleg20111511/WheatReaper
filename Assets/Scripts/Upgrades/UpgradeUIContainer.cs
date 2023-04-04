@@ -23,6 +23,8 @@ public class UpgradeUIContainer : MonoBehaviour
             upgradeName.text = upgrade.UpgradeName;
             description.text = upgrade.Description;
             cost.text = "Cost: " + upgrade.Cost.ToString();
+            icon.sprite = upgrade.Icon;
+
             if (upgrade.MaxLevel > 1)
             {
                 level.text = (upgrade.CurrentLevel + 1).ToString();

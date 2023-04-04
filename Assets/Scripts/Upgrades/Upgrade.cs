@@ -53,6 +53,11 @@ public abstract class Upgrade : MonoBehaviour
         get { return level; }
     }
 
+    public Sprite Icon
+    {
+        get { return icon; }
+    }
+
 
     public abstract void Activate();
 
