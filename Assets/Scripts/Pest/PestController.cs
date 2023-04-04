@@ -14,10 +14,13 @@ public enum PestState {
 public class PestController : MonoBehaviour
 {
     public static List<PestController> AllPestControllers {get; private set;} = new List<PestController>();
+    public static string ANIMATION_RUN = "RatRun";
+    public static string ANIMATION_EAT = "RatEat";
 
     [SerializeField] private int movementSpeed = 10;
     [SerializeField] private float cropEatingDuration = 4f;
     [SerializeField] private int damageLimit = 3;
+    [SerializeField] private Animator animator;
 
     private Rigidbody2D rb2d;
 
@@ -26,6 +29,7 @@ public class PestController : MonoBehaviour
     private PestState currentState;
     private Coroutine eatingTask;
     private int objectsDamaged = 0;
+    private string currentAnimation;
 
 
     private void Awake()
@@ -74,6 +78,31 @@ public class PestController : MonoBehaviour
         }
         
         Die();
+    }
+
+
+    private void PlayAnimation(string animationName)
+    {
+        currentAnimation = animationName;
+        animator.Play(animationName);
+    }
+
+
+    private void MoveTo(Transform newTarget)
+    {
+        PlayAnimation(ANIMATION_RUN);
+        movementTarget = newTarget;
+        Vector2 direction = (newTarget.position - transform.position).normalized;
+        rb2d.velocity = direction * movementSpeed;
+        
+        if (direction.x < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
     }
 
 
@@ -128,6 +157,7 @@ public class PestController : MonoBehaviour
         }
 
         currentState = PestState.EatingCrop;
+        PlayAnimation(ANIMATION_EAT);
         yield return new WaitForSeconds(cropEatingDuration);
         // Check if target is still vulnerable
         if (!targetVulnerability.CanBeDamagedByPest)
@@ -155,14 +185,6 @@ public class PestController : MonoBehaviour
         currentState = PestState.RunningAway;
         Transform extractionPoint = Utils.FindClosestTransform(PestManager.Instance.SpawnPoints, transform);
         MoveTo(extractionPoint);
-    }
-
-
-    private void MoveTo(Transform newTarget)
-    {
-        movementTarget = newTarget;
-        Vector2 direction = (newTarget.position - transform.position).normalized;
-        rb2d.velocity = direction * movementSpeed;
     }
 
 
