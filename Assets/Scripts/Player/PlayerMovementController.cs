@@ -15,6 +15,20 @@ public class PlayerMovementController : MonoBehaviour
     private Rigidbody2D rb2d;
 
 
+    public float MovementSpeed
+    {
+        get { return movementSpeed; }
+        set
+        {
+            if (value < 0.01f)
+            {
+                throw new System.ArgumentException("Speed can't be lower than 0.01f");
+            }
+            movementSpeed = value;
+        }
+    }
+
+
     private void Start()
     {
         input = GetComponent<PlayerInput>();

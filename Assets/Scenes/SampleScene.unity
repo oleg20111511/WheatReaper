@@ -8836,6 +8836,7 @@ GameObject:
   - component: {fileID: 2092603349}
   - component: {fileID: 2092603350}
   - component: {fileID: 2092603351}
+  - component: {fileID: 2092603352}
   m_Layer: 0
   m_Name: UpgradeManager
   m_TagString: Untagged
@@ -8918,6 +8919,8 @@ MonoBehaviour:
   unlocks:
   - level: 3
     upgrade: {fileID: 2092603350}
+  - level: 1
+    upgrade: {fileID: 2092603352}
   speedIncrease: 0.25
 --- !u!114 &2092603347
 MonoBehaviour:
@@ -9013,6 +9016,25 @@ MonoBehaviour:
   icon: {fileID: 0}
   unlocks: []
   sizeByLevel: 3200000064000000fa000000f401000088130000
+--- !u!114 &2092603352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092603341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4dbac677f124cb4dab023d9d7df37a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: JET HOVERING
+  description: Increases your movement speed
+  costByLevel: 64000000fa000000
+  isAvailable: 0
+  icon: {fileID: 0}
+  unlocks: []
+  speedIncrease: 1.5
 --- !u!1001 &507058582507865404
 PrefabInstance:
   m_ObjectHideFlags: 0
