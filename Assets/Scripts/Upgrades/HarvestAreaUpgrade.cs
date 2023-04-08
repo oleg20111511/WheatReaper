@@ -6,6 +6,7 @@ public class HarvestAreaUpgrade : Upgrade
 {
     public override void Activate()
     {
-        throw new System.NotImplementedException();
+        WheatTarget.UpgradeLevel++;
+        OnActivate();
     }
 }

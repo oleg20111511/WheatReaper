@@ -5,12 +5,15 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 public class PlayerMovementController : MonoBehaviour
 {
+    public Vector2 lookDirection {get; private set;}
+
     [SerializeField] private bool canMove = true;
     [SerializeField] private float movementSpeed = 10f;
     [SerializeField] private bool isFacingRight = true;
 
     private PlayerInput input;
     private Rigidbody2D rb2d;
+
 
     private void Start()
     {
@@ -71,6 +74,7 @@ public class PlayerMovementController : MonoBehaviour
         {
             if (direction.magnitude != 0)
             {
+                lookDirection = DirectionFromVector(direction);
                 PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_WALK);
             }
             else
@@ -80,5 +84,18 @@ public class PlayerMovementController : MonoBehaviour
         }
 
         rb2d.velocity = direction * movementSpeed;
+    }
+
+
+    private Vector2 DirectionFromVector(Vector2 v)
+    {
+        if (v.x > 0)
+        {
+            return Vector2.right;
+        }
+        else
+        {
+            return Vector2.left;
+        }
     }
 }

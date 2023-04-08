@@ -10,7 +10,7 @@ public class FertilizerUpgrade : Upgrade
     {
         foreach (WheatController wheatController in WheatController.AllWheatControllers)
         {
-            wheatController.ChangeGrowthDuration(-growthDurationDecrease);
+            wheatController.WheatGrowth.ChangeGrowthDuration(-growthDurationDecrease);
         }
         OnActivate();
     }

@@ -20,7 +20,7 @@ public class PlayerHarvestController : MonoBehaviour
 
     private PlayerInput input;
     private PlayerMovementController movementController;
-    private WheatController swipeHarvestTarget;
+    private List<WheatController> swipeHarvestTargets;
     private int wheatOnHand = 0;
     private bool swipeAvailable = true;
 
@@ -83,19 +83,20 @@ public class PlayerHarvestController : MonoBehaviour
     }
 
 
+    // Called from animator
     public void OnSwipeStart()
     {
         swipeAvailable = false;
-        swipeHarvestTarget = WheatController.Highlighted;
+        swipeHarvestTargets = new List<WheatController>(WheatTarget.highlightedFields);
         // If player is standing over a fully-grown field, consider swipe intention as harvest
-        if (swipeHarvestTarget && swipeHarvestTarget.IsGrown())
+        if (swipeHarvestTargets.Exists(w => w.WheatGrowth.IsGrown))
         {
             movementController.DisableMovement();
         }
     }
 
 
-    // Happens on swipe slash frame
+    // Called from animator. Happens on swipe slash frame
     public void Attack()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(attackPosition.position, attackRadius, PestManager.Instance.PestsLayerMask);
@@ -107,6 +108,7 @@ public class PlayerHarvestController : MonoBehaviour
     }
 
 
+    // Called from animator
     public void OnSwipeEnd()
     {
         Harvest();
@@ -114,7 +116,7 @@ public class PlayerHarvestController : MonoBehaviour
         movementController.EnableMovement();
         PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_IDLE);
         swipeAvailable = true;
-        swipeHarvestTarget = null;
+        swipeHarvestTargets.Clear();
     }
 
 
@@ -126,15 +128,17 @@ public class PlayerHarvestController : MonoBehaviour
 
     private void Harvest()
     {
-        if (WheatOnHand == maxHoldSize)
+        swipeHarvestTargets.RemoveAll(w => !w.WheatGrowth.IsGrown);
+        foreach (WheatController field in swipeHarvestTargets)
         {
-            StartCoroutine(BlinkWheatIndicator());
-            return;
-        }
-        if (swipeHarvestTarget && swipeHarvestTarget.IsGrown())
-        {
+            if (WheatOnHand == maxHoldSize)
+            {
+                StartCoroutine(BlinkWheatIndicator());
+                return;
+            }
+            
             WheatOnHand += WheatController.WheatPerField;
-            swipeHarvestTarget.Harvest();
+            field.Harvest();
             if (harvestTeleportationEnabled)
             {
                 CartController.Instance.Interact();

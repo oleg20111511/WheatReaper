@@ -306,6 +306,8 @@ GameObject:
   - component: {fileID: 1884435337007527536}
   - component: {fileID: -8403403225893828445}
   - component: {fileID: -6964805888020578388}
+  - component: {fileID: 3536848203776291096}
+  - component: {fileID: 4395402035100814686}
   m_Layer: 7
   m_Name: Wheat
   m_TagString: Untagged
@@ -421,17 +423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b532dccf00e2554e928e016e33c9208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growthStages:
-  - {fileID: -904681435, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
-  - {fileID: -1658588943, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
-  - {fileID: 324677762, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
-  - {fileID: -1628661918, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
-  - {fileID: -1084605602, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
-  - {fileID: -1342419187, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
-  stageDurationMilliseconds: 15000
-  stageDurationRandomizationValue: 0.3
-  hoverFrame: {fileID: 6714543078065721097}
-  exclamationMark: {fileID: 8296768168358214505}
   infestationRecoveryDurationSeconds: 30
   recoveryProgressDisplay: {fileID: 5000712002858316475}
 --- !u!82 &-6964805888020578388
@@ -530,6 +521,41 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3536848203776291096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8796527011634648757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4a5e7dad37e8d498ba2b123124c475, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverFrame: {fileID: 6714543078065721097}
+--- !u!114 &4395402035100814686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8796527011634648757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c02ca6fbe7ce5d949aa49a50456181d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  growthStages:
+  - {fileID: -904681435, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
+  - {fileID: -1658588943, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
+  - {fileID: 324677762, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
+  - {fileID: -1628661918, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
+  - {fileID: -1084605602, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
+  - {fileID: -1342419187, guid: 6339537155e0fb14080ef4796660c7e3, type: 3}
+  stageDurationMilliseconds: 15000
+  stageDurationRandomizationValue: 0.5
+  exclamationMark: {fileID: 8296768168358214505}
 --- !u!1001 &8490191179003270595
 PrefabInstance:
   m_ObjectHideFlags: 0
