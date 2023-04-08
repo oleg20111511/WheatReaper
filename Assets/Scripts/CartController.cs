@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,11 +8,17 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
 {
+    [Serializable]
+    public struct FullnessSprite
+    {
+        public float breakpoint;
+        public Sprite sprite;
+    }
+
     private static CartController instance;
 
+    [SerializeField] private List<FullnessSprite> fullnessSprites;
     [SerializeField] private int capacity = 30;
-    [SerializeField] private List<Sprite> sprites;
-    [SerializeField] private List<int> fullnessBreakpoints;  // Contains ints that act as references for sprite-change condition. Must match length of sprites
     [SerializeField] private GameObject keyPrompt;
     [SerializeField] private Transform outPosition;
     [SerializeField] private Transform inPosition;
@@ -36,6 +43,15 @@ public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
     public int Capacity
     {
         get { return capacity; }
+        set
+        {
+            if (value < 1)
+            {
+                throw new ArgumentException("Capacity can't be lower than 1");
+            }
+            capacity = value;
+            UpdateSprite();
+        }
     }
 
 
@@ -158,24 +174,28 @@ public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
         }
 
         wheatAmount = newAmount;
-        int fullnessState = 0;
 
-        // Find breakpoint that is closest to, yet lower than, new wheat amount
-        // Index of that breakpoint will correspond to index of sprite
-        for (int i = 0; i < fullnessBreakpoints.Count; i++)
-        {
-            if (fullnessBreakpoints[i] > newAmount)
-            {
-                break;
-            }
-            fullnessState = i;
-        }
-
-        spriteRenderer.sprite = sprites[fullnessState];
+        UpdateSprite();
 
         if (newAmount == capacity)
         {
             farmer.TakeCart();
+        }
+    }
+
+
+    private void UpdateSprite()
+    {
+        // Iterate through all fullness sprites, assigning their sprite to renderer
+        // But break when fullness breakpoint is not reached
+        float fullness = (float) wheatAmount / (float) capacity;
+        foreach (FullnessSprite fullnessSprite in fullnessSprites)
+        {
+            if (fullnessSprite.breakpoint > fullness)
+            {
+                break;
+            }
+            spriteRenderer.sprite = fullnessSprite.sprite;
         }
     }
 

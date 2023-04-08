@@ -245,13 +245,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 028871375dbc75a41b408cf9dba6d405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fullnessSprites:
+  - breakpoint: 0
+    sprite: {fileID: -1349044791, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
+  - breakpoint: 0.33
+    sprite: {fileID: -2010819941, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
+  - breakpoint: 0.66
+    sprite: {fileID: -1939655064, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
+  - breakpoint: 1
+    sprite: {fileID: -931925334, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
   capacity: 30
-  sprites:
-  - {fileID: -1349044791, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
-  - {fileID: -2010819941, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
-  - {fileID: -1939655064, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
-  - {fileID: -931925334, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
-  fullnessBreakpoints: 000000000a000000140000001e000000
   keyPrompt: {fileID: 6361482382514909688}
   outPosition: {fileID: 0}
   inPosition: {fileID: 0}

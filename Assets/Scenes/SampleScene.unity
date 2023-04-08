@@ -8834,6 +8834,8 @@ GameObject:
   - component: {fileID: 2092603347}
   - component: {fileID: 2092603348}
   - component: {fileID: 2092603349}
+  - component: {fileID: 2092603350}
+  - component: {fileID: 2092603351}
   m_Layer: 0
   m_Name: UpgradeManager
   m_TagString: Untagged
@@ -8876,6 +8878,8 @@ MonoBehaviour:
   unlocks:
   - level: 3
     upgrade: {fileID: 2092603349}
+  - level: 2
+    upgrade: {fileID: 2092603351}
   bagSizes: 0f0000001e00000064000000
 --- !u!114 &2092603345
 MonoBehaviour:
@@ -8911,7 +8915,9 @@ MonoBehaviour:
   costByLevel: 0a0000001e00000032000000
   isAvailable: 1
   icon: {fileID: 21300000, guid: 24e28b6f0deb2f44bbd0e20cd8660dab, type: 3}
-  unlocks: []
+  unlocks:
+  - level: 3
+    upgrade: {fileID: 2092603350}
   speedIncrease: 0.25
 --- !u!114 &2092603347
 MonoBehaviour:
@@ -8970,6 +8976,43 @@ MonoBehaviour:
   isAvailable: 0
   icon: {fileID: 0}
   unlocks: []
+--- !u!114 &2092603350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092603341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94aa5ca5707477d4096037eb5d2b3473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: GIANT BLADE
+  description: Increases amount of fields you can harvest at once
+  costByLevel: f4010000c4090000
+  isAvailable: 0
+  icon: {fileID: 0}
+  unlocks: []
+--- !u!114 &2092603351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092603341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46bc353e4a082164290bdeeaf74e1106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: BIGGER CART
+  description: Increases amount of wheat you can fit in delivery cart
+  costByLevel: 320000006400000064000000fa000000e8030000
+  isAvailable: 0
+  icon: {fileID: 0}
+  unlocks: []
+  sizeByLevel: 3200000064000000fa000000f401000088130000
 --- !u!1001 &507058582507865404
 PrefabInstance:
   m_ObjectHideFlags: 0
