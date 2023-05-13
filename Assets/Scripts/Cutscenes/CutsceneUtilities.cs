@@ -52,10 +52,7 @@ namespace Cutscenes
 
         public static IEnumerator WaitForCutscene()
         {
-            while (CutsceneManager.Instance.CurrentCutscene != null)
-            {
-                yield return null;
-            }
+            yield return new WaitUntil(() => CutsceneManager.Instance.CurrentCutscene == null);
         }
     }
 }
