@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class HarvestAreaUpgrade : Upgrade
+namespace Upgrades
 {
-    public override void Activate()
+    public class HarvestAreaUpgrade : Upgrade
     {
-        WheatTarget.UpgradeLevel++;
-        OnActivate();
+        public override void Activate()
+        {
+            WheatTarget.UpgradeLevel++;
+            OnActivate();
+        }
     }
 }

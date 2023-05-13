@@ -1,14 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Player;
 
-public class MovementSpeedUpgrade : Upgrade
+namespace Upgrades
 {
-    [SerializeField] private float speedIncrease;
-
-    public override void Activate()
+    public class MovementSpeedUpgrade : Upgrade
     {
-        PlayerController.Instance.movementController.MovementSpeed += speedIncrease;
-        OnActivate();
+        [SerializeField] private float speedIncrease;
+
+        public override void Activate()
+        {
+            PlayerController.Instance.movementController.MovementSpeed += speedIncrease;
+            OnActivate();
+        }
     }
 }

@@ -2,114 +2,117 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
-public class PlayerMovementController : MonoBehaviour
+namespace Player
 {
-    public Vector2 lookDirection {get; private set;}
-
-    [SerializeField] private bool canMove = true;
-    [SerializeField] private float movementSpeed = 10f;
-    [SerializeField] private bool isFacingRight = true;
-
-    private PlayerInput input;
-    private Rigidbody2D rb2d;
-
-
-    public float MovementSpeed
+    [RequireComponent(typeof(PlayerController))]
+    public class PlayerMovementController : MonoBehaviour
     {
-        get { return movementSpeed; }
-        set
+        public Vector2 lookDirection {get; private set;}
+
+        [SerializeField] private bool canMove = true;
+        [SerializeField] private float movementSpeed = 10f;
+        [SerializeField] private bool isFacingRight = true;
+
+        private PlayerInput input;
+        private Rigidbody2D rb2d;
+
+
+        public float MovementSpeed
         {
-            if (value < 0.01f)
+            get { return movementSpeed; }
+            set
             {
-                throw new System.ArgumentException("Speed can't be lower than 0.01f");
+                if (value < 0.01f)
+                {
+                    throw new System.ArgumentException("Speed can't be lower than 0.01f");
+                }
+                movementSpeed = value;
             }
-            movementSpeed = value;
-        }
-    }
-
-
-    private void Start()
-    {
-        input = GetComponent<PlayerInput>();
-        rb2d = GetComponent<Rigidbody2D>();
-    }
-
-
-    private void Update()
-    {
-        if (canMove)
-        {
-            Move();
-        }
-    }
-
-
-    public void DisableMovement()
-    {
-        rb2d.velocity = Vector2.zero;
-        canMove = false;
-    }
-
-
-    public void EnableMovement()
-    {
-        canMove = true;
-    }
-
-
-    private void Flip()
-    {
-        isFacingRight = !isFacingRight;
-        if (isFacingRight)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
-        else
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-    }
-
-
-    private void Move()
-    {
-        Vector2 direction = new Vector2(input.xMovement, input.yMovement);
-        direction.Normalize();
-
-        // Mirror sprite if player switches direction
-        if ((isFacingRight && direction.x < 0) || (!isFacingRight && direction.x > 0))
-        {
-            Flip();
         }
 
 
-        if (PlayerController.Instance.currentAnimation != PlayerController.ANIMATION_SWIPE)
+        private void Start()
         {
-            if (direction.magnitude != 0)
+            input = GetComponent<PlayerInput>();
+            rb2d = GetComponent<Rigidbody2D>();
+        }
+
+
+        private void Update()
+        {
+            if (canMove)
             {
-                lookDirection = DirectionFromVector(direction);
-                PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_WALK);
+                Move();
+            }
+        }
+
+
+        public void EnableMovement()
+        {
+            canMove = true;
+        }
+
+
+        public void DisableMovement()
+        {
+            rb2d.velocity = Vector2.zero;
+            canMove = false;
+        }
+
+
+        private void Flip()
+        {
+            isFacingRight = !isFacingRight;
+            if (isFacingRight)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
             }
             else
             {
-                PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_IDLE);
+                transform.localScale = new Vector3(-1, 1, 1);
             }
         }
 
-        rb2d.velocity = direction * movementSpeed;
-    }
 
-
-    private Vector2 DirectionFromVector(Vector2 v)
-    {
-        if (v.x > 0)
+        private void Move()
         {
-            return Vector2.right;
+            Vector2 direction = new Vector2(input.xMovement, input.yMovement);
+            direction.Normalize();
+
+            // Mirror sprite if player switches direction
+            if ((isFacingRight && direction.x < 0) || (!isFacingRight && direction.x > 0))
+            {
+                Flip();
+            }
+
+
+            if (PlayerController.Instance.currentAnimation != PlayerController.ANIMATION_SWIPE)
+            {
+                if (direction.magnitude != 0)
+                {
+                    lookDirection = DirectionFromVector(direction);
+                    PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_WALK);
+                }
+                else
+                {
+                    PlayerController.Instance.PlayAnimation(PlayerController.ANIMATION_IDLE);
+                }
+            }
+
+            rb2d.velocity = direction * movementSpeed;
         }
-        else
+
+
+        private Vector2 DirectionFromVector(Vector2 v)
         {
-            return Vector2.left;
+            if (v.x > 0)
+            {
+                return Vector2.right;
+            }
+            else
+            {
+                return Vector2.left;
+            }
         }
     }
 }

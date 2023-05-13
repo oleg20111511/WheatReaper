@@ -1,24 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameManagement;
 
 public class CutsceneInput : MonoBehaviour
 {
-    public bool skipInput {get; private set;}
+    public bool skipInput { get; private set; }
 
     [SerializeField] private bool inputEnabled = true;
 
 
-    public void EnableInput()
+    private void Start()
     {
-        inputEnabled = true;
-    }
-
-
-    public void DisableInput()
-    {
-        skipInput = false;
-        inputEnabled = false;
+        GameManager.Instance.GameStateChanged += OnGameStateChanged;
     }
 
 
@@ -31,8 +25,35 @@ public class CutsceneInput : MonoBehaviour
     }
 
 
+    public void EnableInput()
+    {
+        inputEnabled = true;
+    }
+
+
+    public void DisableInput()
+    {
+        inputEnabled = false;
+        // Reset inputs
+        skipInput = false;
+    }
+
+
+    private void OnGameStateChanged(GameStateBase newState)
+    {
+        if (newState.GetType() == typeof(StateAnimation))
+        {
+            EnableInput();
+        }
+        else
+        {
+            DisableInput();
+        }
+    }
+
+
     private void HandleInput()
     {
         skipInput = Input.GetMouseButtonDown(0);
-    }    
+    }
 }

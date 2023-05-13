@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cutscenes;
+using Player;
+using Upgrades;
 
 
 public enum FarmerState
@@ -14,43 +17,66 @@ public enum FarmerState
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Talker))]
 public class FarmerController : MonoBehaviour, IInteractable
 {
+    // STATIC
+    private static FarmerController instance;
+
+    // ANIMATIONS
     public const string ANIMATION_IDLE = "FarmerIdle";
     public const string ANIMATION_WALK = "FarmerWalk";
 
+    // PUBLIC COMPONENTS
+    public Talker talker { get; private set; }
+
+    // REFERENCES
     [SerializeField] private Transform outPosition;
     [SerializeField] private Transform inPosition;
     [SerializeField] private GameObject keyPrompt;
     [SerializeField] private float movementSpeed = 3f;
     [SerializeField] private CartController cart;
 
-    private Talker talker;
-    private Transform movementTarget;
+    // PRIVATE COMPONENTS
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb2d;
 
+    // STATUS VARIABLES
     private FarmerState state = FarmerState.Idle;
+    private Transform movementTarget;
     private List<string> comments;
     private int commentIndex = 0;
     private bool upgradesExplained = false;
     private bool interationFlag = false;
 
-
+    // PROPERTIES
     public bool InteractionEnabled
     {
         get { return state == FarmerState.WaitingForInteraction; }
     }
 
+    public static FarmerController Instance
+    {
+        get { return instance; }
+    }
 
+
+    // METHODS
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+
         talker = GetComponent<Talker>();
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        
+
         comments = new List<string>();
         comments.Add("Wow, you're really good at this! Keep up at it!");
         comments.Add("You're quite fast, huh?");
@@ -143,11 +169,13 @@ public class FarmerController : MonoBehaviour, IInteractable
 
         talker.dialogueBoxContainer.SetActive(true);
 
-        yield return StartCoroutine(CutsceneController.DrawText(talker.dialogueBoxText, comments[commentIndex]));
-        if (commentIndex < comments.Count - 1) {
+        yield return StartCoroutine(CutsceneUtilities.DrawText(talker.dialogueBoxText, comments[commentIndex]));
+        if (commentIndex < comments.Count - 1)
+        {
             commentIndex++;
         }
-        else {
+        else
+        {
             commentIndex = 0;
         }
         yield return new WaitForSeconds(5f);
@@ -181,16 +209,16 @@ public class FarmerController : MonoBehaviour, IInteractable
         {
             comment = "Hey, I've got something for you! Could you come over here?";
         }
-        yield return StartCoroutine(CutsceneController.DrawText(talker.dialogueBoxText, comment));
+        yield return StartCoroutine(CutsceneUtilities.DrawText(talker.dialogueBoxText, comment));
 
         // There are 2 possible situations to handle:
         // 1) Player doesn't interact and farmer leaves after waiting for too long
         // 2) Player interacts this waits for the interaction to end
-        
+
         // Give player a limited time to approach
         float startTime = Time.time;
         float endTime = startTime + 15f;
-        
+
         while (Time.time < endTime)
         {
             if (interationFlag)
@@ -218,16 +246,7 @@ public class FarmerController : MonoBehaviour, IInteractable
     private IEnumerator ExplainUpgrades()
     {
         upgradesExplained = true;
-        PlayerController.Instance.Freeze();
-        PlayerController.Instance.cutsceneInput.EnableInput();
-        
-        yield return StartCoroutine(talker.Say("You've been working quite hard to harvest those crops."));
-        yield return StartCoroutine(talker.Say("I have your pay right here."));
-        yield return StartCoroutine(talker.Say("Oh, and management guys said that you can pay to order some improvements to your work environment."));
-        yield return StartCoroutine(talker.Say("Kind of a weird decision on their end to make you pay for it though, if you ask me."));
-        yield return StartCoroutine(talker.Say("But anyway, tell me if you want to upgrade anything here and I'll pass it on."));
-        yield return StartCoroutine(talker.Say("And you can do that only when I come here, obviously, so plan your upgrades carefully."));
-
-        PlayerController.Instance.cutsceneInput.DisableInput();
+        CutsceneManager.Instance.PlayAttachedCutscene<UpgradesExplanationCutscene>();
+        yield return StartCoroutine(CutsceneUtilities.WaitForCutscene());
     }
 }

@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Player;
 
-public class EndGameUpdrade : Upgrade
+namespace Upgrades
 {
-    [SerializeField] private GameObject endGameCanvas;
-
-    public override void Activate()
+    public class EndGameUpdrade : Upgrade
     {
-        PlayerController.Instance.movementController.DisableMovement();
-        endGameCanvas.SetActive(true);
+        [SerializeField] private GameObject endGameCanvas;
+
+        public override void Activate()
+        {
+            PlayerController.Instance.movementController.DisableMovement();
+            endGameCanvas.SetActive(true);
+        }
     }
 }

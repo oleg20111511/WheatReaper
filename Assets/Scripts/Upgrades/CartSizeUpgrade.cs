@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CartSizeUpgrade : Upgrade
+namespace Upgrades
 {
-    public List<int> sizeByLevel = new List<int>();
-
-
-    public override void Activate()
+    public class CartSizeUpgrade : Upgrade
     {
-        CartController.Instance.Capacity = sizeByLevel[CurrentLevel];
-        OnActivate();
+        public List<int> sizeByLevel = new List<int>();
+
+
+        public override void Activate()
+        {
+            CartController.Instance.Capacity = sizeByLevel[CurrentLevel];
+            OnActivate();
+        }
     }
 }

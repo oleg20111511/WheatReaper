@@ -2,78 +2,81 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour
+namespace Player
 {
-    // Public Fields
-    public float xMovement { get; private set; }
-    public float yMovement { get; private set; }
-    public bool harvestInput { get; private set; }
-    public bool interactionInput { get; private set; }
-    public bool exitInput { get; private set; }
-
-    // Private Fields
-    [SerializeField] private bool inputEnabled = true;
-    private KeyCode moveLeftKey = KeyCode.A;
-    private KeyCode moveRightKey = KeyCode.D;
-    private KeyCode moveUpKey = KeyCode.W;
-    private KeyCode moveDownKey = KeyCode.S;
-    private KeyCode interactionKey = KeyCode.E;
-    private KeyCode exitKey = KeyCode.Escape;
-
-    // Unity Methods
-    private void Update()
+    public class PlayerInput : MonoBehaviour
     {
-        if (inputEnabled)
-        {
-            HandleInput();
-        }
-    }
+        // Public Fields
+        public float xMovement { get; private set; }
+        public float yMovement { get; private set; }
+        public bool harvestInput { get; private set; }
+        public bool interactionInput { get; private set; }
+        public bool exitInput { get; private set; }
 
-    // Public Methods
-    public void EnableInput()
-    {
-        inputEnabled = true;
-    }
+        // Private Fields
+        [SerializeField] private bool inputEnabled = true;
+        private KeyCode moveLeftKey = KeyCode.A;
+        private KeyCode moveRightKey = KeyCode.D;
+        private KeyCode moveUpKey = KeyCode.W;
+        private KeyCode moveDownKey = KeyCode.S;
+        private KeyCode interactionKey = KeyCode.E;
+        private KeyCode exitKey = KeyCode.Escape;
 
-    public void DisableInput()
-    {
-        inputEnabled = false;
-    }
-
-    // Private Methods
-    private void HandleInput()
-    {
-        // Handle movement input in a way so that when both keys for an axis are pressed, movement is set to 0
-        // xMovement:
-        if (Input.GetKey(moveRightKey) && !Input.GetKey(moveLeftKey))
+        // Unity Methods
+        private void Update()
         {
-            xMovement = 1;
-        }
-        else if (Input.GetKey(moveLeftKey) && !Input.GetKey(moveRightKey))
-        {
-            xMovement = -1;
-        }
-        else
-        {
-            xMovement = 0;
+            if (inputEnabled)
+            {
+                HandleInput();
+            }
         }
 
-        // yMovement:
-        if (Input.GetKey(moveUpKey) && !Input.GetKey(moveDownKey))
+        // Public Methods
+        public void EnableInput()
         {
-            yMovement = 1;
-        }
-        else if (Input.GetKey(moveDownKey) && !Input.GetKey(moveUpKey))
-        {
-            yMovement = -1;
-        }
-        else
-        {
-            yMovement = 0;
+            inputEnabled = true;
         }
 
-        harvestInput = Input.GetMouseButtonDown(0);
-        interactionInput = Input.GetKeyDown(interactionKey);
-        exitInput = Input.GetKeyDown(exitKey);
+        public void DisableInput()
+        {
+            inputEnabled = false;
+        }
+
+        // Private Methods
+        private void HandleInput()
+        {
+            // Handle movement input in a way so that when both keys for an axis are pressed, movement is set to 0
+            // xMovement:
+            if (Input.GetKey(moveRightKey) && !Input.GetKey(moveLeftKey))
+            {
+                xMovement = 1;
+            }
+            else if (Input.GetKey(moveLeftKey) && !Input.GetKey(moveRightKey))
+            {
+                xMovement = -1;
+            }
+            else
+            {
+                xMovement = 0;
+            }
+
+            // yMovement:
+            if (Input.GetKey(moveUpKey) && !Input.GetKey(moveDownKey))
+            {
+                yMovement = 1;
+            }
+            else if (Input.GetKey(moveDownKey) && !Input.GetKey(moveUpKey))
+            {
+                yMovement = -1;
+            }
+            else
+            {
+                yMovement = 0;
+            }
+
+            harvestInput = Input.GetMouseButtonDown(0);
+            interactionInput = Input.GetKeyDown(interactionKey);
+            exitInput = Input.GetKeyDown(exitKey);
+        }
     }
 }

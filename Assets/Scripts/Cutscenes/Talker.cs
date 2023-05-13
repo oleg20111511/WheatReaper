@@ -2,28 +2,31 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class Talker : MonoBehaviour
+namespace Cutscenes
 {
-    public GameObject dialogueBoxContainer;
-    public TextMeshProUGUI dialogueBoxText;
-
-    private CutsceneInput playerInput;
-
-
-    private void Start()
+    public class Talker : MonoBehaviour
     {
-        playerInput = PlayerController.Instance.cutsceneInput;
-    }
+        public GameObject dialogueBoxContainer;
+        public TextMeshProUGUI dialogueBoxText;
+
+        private CutsceneInput cutsceneInput;
 
 
-    public IEnumerator Say(string text)
-    {
-        dialogueBoxContainer.SetActive(true);
-        yield return StartCoroutine(CutsceneController.DrawText(dialogueBoxText, text));
-
-        while (!playerInput.skipInput)
+        private void Start()
         {
-            yield return null;
+            cutsceneInput = CutsceneManager.Instance.CutsceneInput;
+        }
+
+
+        public IEnumerator Say(string text)
+        {
+            dialogueBoxContainer.SetActive(true);
+            yield return StartCoroutine(CutsceneUtilities.DrawText(dialogueBoxText, text));
+
+            while (!cutsceneInput.skipInput)
+            {
+                yield return null;
+            }
         }
     }
 }

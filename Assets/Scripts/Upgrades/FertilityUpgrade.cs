@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class FertilityUpgrade : Upgrade
+namespace Upgrades
 {
-    public override void Activate()
+    public class FertilityUpgrade : Upgrade
     {
-        WheatController.WheatPerField += 1;
-        OnActivate();
+        public override void Activate()
+        {
+            WheatController.WheatPerField += 1;
+            OnActivate();
+        }
     }
 }

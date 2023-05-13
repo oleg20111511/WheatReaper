@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 4325045071729946503}
   - component: {fileID: 3637576934660413531}
   - component: {fileID: 9073665667201299131}
-  - component: {fileID: 8911345976473109896}
   - component: {fileID: 5164540848481938723}
   m_Layer: 0
   m_Name: Reaper
@@ -99,7 +98,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &533206486385055192
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -116,7 +115,8 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!50 &4664547085511512761
 Rigidbody2D:
   serializedVersion: 4
@@ -309,6 +309,7 @@ MonoBehaviour:
   inventoryFullBlinkingDurationSeconds: 2
   inventoryFullSingleBlinkDurationSeconds: 0.2
   inventoryFullBlinkColor: {r: 1, g: 1, b: 1, a: 0}
+  harvestTeleportationEnabled: 0
 --- !u!114 &3637576934660413531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,19 +339,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueBoxContainer: {fileID: 0}
   dialogueBoxText: {fileID: 0}
---- !u!114 &8911345976473109896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 533206486385055193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24ddd1d7517d3f7498356eff6fea2674, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputEnabled: 1
 --- !u!114 &5164540848481938723
 MonoBehaviour:
   m_ObjectHideFlags: 0

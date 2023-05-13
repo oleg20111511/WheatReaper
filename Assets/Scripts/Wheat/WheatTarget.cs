@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Player;
 
 [RequireComponent(typeof(WheatController))]
 public class WheatTarget : MonoBehaviour

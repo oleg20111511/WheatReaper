@@ -1,14 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Player;
 
-public class BagUpgrade : Upgrade
+namespace Upgrades
 {
-    [SerializeField] private int[] bagSizes;  // index represents (level - 1), value represents size
-
-    public override void Activate()
+    public class BagUpgrade : Upgrade
     {
-        PlayerController.Instance.harvestController.BagSize = bagSizes[level];
-        OnActivate();        
+        [SerializeField] private int[] bagSizes;  // index represents (level - 1), value represents size
+
+        public override void Activate()
+        {
+            PlayerController.Instance.harvestController.BagSize = bagSizes[level];
+            OnActivate();        
+        }
     }
 }

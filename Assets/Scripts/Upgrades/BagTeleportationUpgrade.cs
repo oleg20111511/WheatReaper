@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Player;
 
-public class BagTeleportationUpgrade : Upgrade
+namespace Upgrades
 {
-    public override void Activate()
+    public class BagTeleportationUpgrade : Upgrade
     {
-        PlayerController.Instance.harvestController.EnableHarvestTeleportation();
-        CartController.Instance.EnableHarvestTeleportation();
-        OnActivate();
+        public override void Activate()
+        {
+            PlayerController.Instance.harvestController.EnableHarvestTeleportation();
+            CartController.Instance.EnableHarvestTeleportation();
+            OnActivate();
+        }
     }
 }
