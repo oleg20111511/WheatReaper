@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Pests;
+using GameManagement;
 
 namespace Player
 {
@@ -56,10 +57,12 @@ namespace Player
             movementController = GetComponent<PlayerMovementController>();
             input = GetComponent<PlayerInput>();
             WheatOnHand = 0;
+
+            GameManager.Instance.GetState<StateGameplay>().StateUpdate += OnStateUpdate;
         }
 
 
-        private void Update()
+        private void OnStateUpdate()
         {
             if (CanSwipe && input.harvestInput)
             {

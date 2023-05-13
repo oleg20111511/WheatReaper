@@ -27,7 +27,6 @@ namespace Pests
 
         private Rigidbody2D rb2d;
 
-        private bool isActive = true;
         private Transform movementTarget;
         private GameObject target;
         private PestState currentState;
@@ -50,40 +49,7 @@ namespace Pests
         private void Start()
         {
             ChangeTarget(true);
-            GameManager.Instance.GameStateChanged += OnGameStateChanged;
-        }
-
-
-        private void FixedUpdate()
-        {
-            if (!isActive)
-            {
-                return;
-            }
-
-            if (currentState == PestState.RunningToField && Utils.IsClose(movementTarget, transform))
-            {
-                rb2d.velocity = Vector2.zero;
-                movementTarget = null;
-                eatingTask = StartCoroutine(DoDamage());
-            }
-            else if (currentState == PestState.RunningAway && Utils.IsClose(movementTarget, transform))
-            {
-                GameObject.Destroy(gameObject);
-            }
-        }
-
-
-        private void OnGameStateChanged(GameStateBase newState)
-        {
-            if (newState.GetType() == typeof(StateGameplay))
-            {
-                isActive = true;
-            }
-            else
-            {
-                isActive = false;
-            }
+            GameManager.Instance.GetState<StateGameplay>().StateFixedUpdate += OnStateFixedUpdate;
         }
 
 
@@ -101,6 +67,21 @@ namespace Pests
             }
             
             Die();
+        }
+
+
+        private void OnStateFixedUpdate()
+        {
+            if (currentState == PestState.RunningToField && Utils.IsClose(movementTarget, transform))
+            {
+                rb2d.velocity = Vector2.zero;
+                movementTarget = null;
+                eatingTask = StartCoroutine(DoDamage());
+            }
+            else if (currentState == PestState.RunningAway && Utils.IsClose(movementTarget, transform))
+            {
+                GameObject.Destroy(gameObject);
+            }
         }
 
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameManagement;
 
 namespace Player
 {
@@ -35,10 +36,12 @@ namespace Player
         {
             input = GetComponent<PlayerInput>();
             rb2d = GetComponent<Rigidbody2D>();
+
+            GameManager.Instance.GetState<StateGameplay>().StateUpdate += OnStateUpdate;
         }
 
 
-        private void Update()
+        private void OnStateUpdate()
         {
             if (canMove)
             {

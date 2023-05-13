@@ -78,18 +78,16 @@ namespace Upgrades
 
         public void OpenMenu()
         {
-            PlayerController.Instance.Freeze();
+            GameManager.Instance.ChangeState<StateUpgradesMenu>();
             UpdateBalanceDisplay();
             LoadNewUpgrades();
             upgradeMenu.SetActive(true);
-
-            GameManager.Instance.ChangeState<StateUpgradesMenu>();
         }
 
 
         public void CloseMenu()
         {
-            PlayerController.Instance.Unfreeze();
+            GameManager.Instance.ChangeState<StateGameplay>();
             upgradeMenu.SetActive(false);
         }
 

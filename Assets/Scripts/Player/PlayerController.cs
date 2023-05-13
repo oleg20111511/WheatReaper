@@ -87,16 +87,7 @@ namespace Player
 
         private void Start()
         {
-            GameManager.Instance.GameStateChanged += OnGameStateChanged;
-        }
-
-
-        private void Update()
-        {
-            if (playerInput.interactionInput && interactable != null && interactable.InteractionEnabled)
-            {
-                interactable.Interact();
-            }
+            GameManager.Instance.GetState<StateGameplay>().StateUpdate += OnStateUpdate;
         }
 
 
@@ -129,27 +120,11 @@ namespace Player
         }
 
 
-        public void Freeze()
+        private void OnStateUpdate()
         {
-            playerInput.DisableInput();
-        }
-
-
-        public void Unfreeze()
-        {
-            playerInput.EnableInput();
-        }
-
-
-        private void OnGameStateChanged(GameStateBase newState)
-        {
-            if (newState.GetType() == typeof(StateGameplay))
+            if (playerInput.interactionInput && interactable != null && interactable.InteractionEnabled)
             {
-                Unfreeze();
-            }
-            else
-            {
-                Freeze();
+                interactable.Interact();
             }
         }
     }

@@ -7,13 +7,26 @@ namespace GameManagement
 {
     public abstract class GameStateBase : MonoBehaviour
     {
+        public delegate void StateUpdateHandler();
+        public event StateUpdateHandler StateUpdate;
+
+        public delegate void StateFixedUpdateHandler();
+        public event StateFixedUpdateHandler StateFixedUpdate;
+
         public virtual void EnterState(GameStateBase fromState)
         {
         }
 
 
-        public virtual void UpdateState()
+        public void UpdateState()
         {
+            StateUpdate?.Invoke();
+        }
+
+
+        public void FixedUpdateState()
+        {
+            StateFixedUpdate?.Invoke();
         }
 
 

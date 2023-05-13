@@ -53,6 +53,12 @@ namespace GameManagement
         }
 
 
+        private void FixedUpdate()
+        {
+            currentState.FixedUpdateState();
+        }
+
+
         public T GetState<T>() where T : GameStateBase
         {
             Type key = typeof(T);

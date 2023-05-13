@@ -31,6 +31,7 @@ namespace Player
             }
         }
 
+
         // Public Methods
         public void EnableInput()
         {
@@ -41,6 +42,7 @@ namespace Player
         {
             inputEnabled = false;
         }
+
 
         // Private Methods
         private void HandleInput()
