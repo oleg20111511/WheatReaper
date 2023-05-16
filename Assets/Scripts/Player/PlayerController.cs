@@ -14,6 +14,7 @@ namespace Player
     [RequireComponent(typeof(PlayerHarvestController))]
     [RequireComponent(typeof(PlayerMovementController))]
     [RequireComponent(typeof(Talker))]
+    [RequireComponent(typeof(PlayerWater))]
     public class PlayerController : MonoBehaviour
     {
         // STATIC
@@ -29,6 +30,7 @@ namespace Player
         public PlayerMovementController movementController { get; private set; }
         public PlayerInput playerInput { get; private set; }
         public Talker talker { get; private set; }
+        public PlayerWater playerWater { get; private set; }
 
         // PUBLIC STATUS VARIABLES
         public string currentAnimation { get; private set; }
@@ -80,6 +82,7 @@ namespace Player
             harvestController = GetComponent<PlayerHarvestController>();
             playerInput = GetComponent<PlayerInput>();
             talker = GetComponent<Talker>();
+            playerWater = GetComponent<PlayerWater>();
 
             animator = GetComponent<Animator>();
         }

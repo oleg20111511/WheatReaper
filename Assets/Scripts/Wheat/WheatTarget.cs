@@ -41,7 +41,7 @@ public class WheatTarget : MonoBehaviour
         if (!wheatController.IsInfested && col.gameObject.CompareTag("HoverTrigger"))
         {
             // Remove previous target if exists
-            if (targetField != null)
+            if (targetField && targetField.WheatTarget != this)
             {
                 ResetTarget();
             }

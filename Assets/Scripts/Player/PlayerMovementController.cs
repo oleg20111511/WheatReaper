@@ -6,16 +6,17 @@ using GameManagement;
 namespace Player
 {
     [RequireComponent(typeof(PlayerController))]
+    [RequireComponent(typeof(SpriteRenderer))]
     public class PlayerMovementController : MonoBehaviour
     {
         public Vector2 lookDirection {get; private set;}
 
         [SerializeField] private bool canMove = true;
         [SerializeField] private float movementSpeed = 10f;
-        [SerializeField] private bool isFacingRight = true;
 
         private PlayerInput input;
         private Rigidbody2D rb2d;
+        private SpriteRenderer spriteRenderer;
 
 
         public float MovementSpeed
@@ -32,11 +33,27 @@ namespace Player
         }
 
 
-        private void Start()
+        public bool IsFacingRight
+        {
+            get {
+                return !spriteRenderer.flipX;
+            }
+            set {
+                spriteRenderer.flipX = !value;
+            }
+        }
+
+
+        private void Awake()
         {
             input = GetComponent<PlayerInput>();
             rb2d = GetComponent<Rigidbody2D>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
 
+
+        private void Start()
+        {
             GameManager.Instance.GetState<StateGameplay>().StateUpdate += OnStateUpdate;
         }
 
@@ -65,15 +82,7 @@ namespace Player
 
         private void Flip()
         {
-            isFacingRight = !isFacingRight;
-            if (isFacingRight)
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-            }
-            else
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
-            }
+            IsFacingRight = !IsFacingRight;
         }
 
 
@@ -83,7 +92,7 @@ namespace Player
             direction.Normalize();
 
             // Mirror sprite if player switches direction
-            if ((isFacingRight && direction.x < 0) || (!isFacingRight && direction.x > 0))
+            if ((IsFacingRight && direction.x < 0) || (!IsFacingRight && direction.x > 0))
             {
                 Flip();
             }

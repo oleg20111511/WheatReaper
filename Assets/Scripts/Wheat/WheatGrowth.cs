@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,41 @@ public class WheatGrowth : MonoBehaviour
         get { return currentStage == growthStages.Count - 1; }
     }
 
+    
+    public int MaxStage
+    {
+        get { return growthStages.Count - 1; }
+    }
+
+
+    public int Stage
+    {
+        get { return currentStage; }
+        set {
+            currentStage = value;
+
+            if (currentStage < 0)
+            {
+                currentStage = 0;
+            }
+            else if (currentStage > MaxStage)
+            {
+                currentStage = MaxStage;
+            }
+
+            spriteRenderer.sprite = growthStages[currentStage];
+
+            if (currentStage == MaxStage)
+            {
+                exclamationMark.SetActive(true);
+            }
+            else
+            {
+                exclamationMark.SetActive(false);
+            }
+        }
+    }
+
 
     private void Awake()
     {
@@ -32,7 +68,7 @@ public class WheatGrowth : MonoBehaviour
 
     private void Start()
     {
-        SetStage(growthStages.Count - 1);
+        Stage = MaxStage;
     }
 
 
@@ -44,7 +80,7 @@ public class WheatGrowth : MonoBehaviour
 
     public void StartGrowth()
     {
-        SetStage(0);
+        Stage = 0;
         growthTask = StartCoroutine(Grow());
     }
 
@@ -56,7 +92,7 @@ public class WheatGrowth : MonoBehaviour
             StopCoroutine(growthTask);
         }
         
-        SetStage(0);
+        Stage = 0;
         spriteRenderer.enabled = false;
     }
 
@@ -68,31 +104,15 @@ public class WheatGrowth : MonoBehaviour
     }
 
 
-    private void SetStage(int newStage)
-    {
-        currentStage = newStage;
-        spriteRenderer.sprite = growthStages[newStage];
-
-        if (newStage == growthStages.Count - 1)
-        {
-            exclamationMark.SetActive(true);
-        }
-        else
-        {
-            exclamationMark.SetActive(false);
-        }
-    }
-
-
     private IEnumerator Grow()
     {
         while(currentStage < growthStages.Count - 1)
         {
             float delta = stageDurationMilliseconds * stageDurationRandomizationValue;
-            float waitTime = Random.Range(stageDurationMilliseconds - delta, stageDurationMilliseconds + delta);
+            float waitTime = UnityEngine.Random.Range(stageDurationMilliseconds - delta, stageDurationMilliseconds + delta);
             waitTime /= 1000f;
             yield return new WaitForSeconds(waitTime);
-            SetStage(currentStage + 1);
+            Stage += 1;
         }
         growthTask = null;
     }

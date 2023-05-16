@@ -56,6 +56,7 @@ namespace Pests
         private void OnDestroy()
         {
             AllPestControllers.Remove(this);
+            GameManager.Instance.GetState<StateGameplay>().StateFixedUpdate -= OnStateFixedUpdate;
         }
 
 

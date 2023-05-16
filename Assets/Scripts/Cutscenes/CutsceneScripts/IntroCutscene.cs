@@ -27,6 +27,11 @@ namespace Cutscenes
         protected override void OnBegin()
         {
             menuContainer.SetActive(false);
+            if (Debug.isDebugBuild)
+            {
+                End();
+                return;
+            }
             timeline.Play();
         }
 
