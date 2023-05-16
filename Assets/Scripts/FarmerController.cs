@@ -5,6 +5,7 @@ using TMPro;
 using Cutscenes;
 using Player;
 using Upgrades;
+using Interaction;
 
 
 public enum FarmerState
@@ -18,7 +19,8 @@ public enum FarmerState
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Talker))]
-public class FarmerController : MonoBehaviour, IInteractable
+[RequireComponent(typeof(InteractionTarget))]
+public class FarmerController : MonoBehaviour
 {
     // STATIC
     private static FarmerController instance;
@@ -33,7 +35,6 @@ public class FarmerController : MonoBehaviour, IInteractable
     // REFERENCES
     [SerializeField] private Transform outPosition;
     [SerializeField] private Transform inPosition;
-    [SerializeField] private GameObject keyPrompt;
     [SerializeField] private float movementSpeed = 3f;
     [SerializeField] private CartController cart;
 
@@ -41,6 +42,7 @@ public class FarmerController : MonoBehaviour, IInteractable
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb2d;
+    private InteractionTarget interactionTarget;
 
     // STATUS VARIABLES
     private FarmerState state = FarmerState.Idle;
@@ -51,11 +53,6 @@ public class FarmerController : MonoBehaviour, IInteractable
     private bool interationFlag = false;
 
     // PROPERTIES
-    public bool InteractionEnabled
-    {
-        get { return state == FarmerState.WaitingForInteraction; }
-    }
-
     public static FarmerController Instance
     {
         get { return instance; }
@@ -76,6 +73,7 @@ public class FarmerController : MonoBehaviour, IInteractable
         animator = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        interactionTarget = GetComponent<InteractionTarget>();
 
         comments = new List<string>();
         comments.Add("Wow, you're really good at this! Keep up at it!");
@@ -87,6 +85,13 @@ public class FarmerController : MonoBehaviour, IInteractable
         comments.Add("Working hard? Guess I'll have to add a little bonus to your pay");
         comments.Add("It's like you were born with this thing");
         comments.Add("You sure know how to handle that scythe. It looks like it's an extension of your own arm.");
+    }
+
+
+    private void Start()
+    {
+        interactionTarget.interactionCheck = () => { return state == FarmerState.WaitingForInteraction; };
+        interactionTarget.Interacted += Interact;
     }
 
 
@@ -103,29 +108,6 @@ public class FarmerController : MonoBehaviour, IInteractable
     }
 
 
-    public void Approach()
-    {
-        if (InteractionEnabled)
-        {
-            keyPrompt.SetActive(true);
-        }
-    }
-
-
-    public void Leave()
-    {
-        keyPrompt.SetActive(false);
-    }
-
-
-    public void Interact()
-    {
-        interationFlag = true;
-        state = FarmerState.Idle;
-        keyPrompt.SetActive(false);
-    }
-
-
     public void TakeCart()
     {
         MoveTo(inPosition);
@@ -136,6 +118,14 @@ public class FarmerController : MonoBehaviour, IInteractable
     public void MoveOut()
     {
         MoveTo(outPosition);
+    }
+
+
+    private void Interact()
+    {
+        interationFlag = true;
+        state = FarmerState.Idle;
+        interactionTarget.Leave();
     }
 
 

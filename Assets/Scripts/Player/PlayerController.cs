@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameManagement;
 using Cutscenes;
+using Interaction;
 
 namespace Player
 {
@@ -17,7 +18,6 @@ namespace Player
     {
         // STATIC
         private static PlayerController instance;
-        private static IInteractable interactable;
 
         // ANIMATIONS
         public const string ANIMATION_IDLE = "ReaperIdle";
@@ -91,28 +91,6 @@ namespace Player
         }
 
 
-        private void OnTriggerEnter2D(Collider2D col)
-        {
-            IInteractable interactableComponent = col.GetComponent<IInteractable>();
-            if (interactableComponent != null && interactableComponent.InteractionEnabled && interactable == null)
-            {
-                interactable = interactableComponent;
-                interactableComponent.Approach();
-            }
-        }
-
-
-        private void OnTriggerExit2D(Collider2D col)
-        {
-            IInteractable interactableComponent = col.GetComponent<IInteractable>();
-            if (interactableComponent != null && interactableComponent == interactable)
-            {
-                interactable = null;
-                interactableComponent.Leave();
-            }
-        }
-
-
         public void PlayAnimation(string animationName)
         {
             currentAnimation = animationName;
@@ -122,9 +100,18 @@ namespace Player
 
         private void OnStateUpdate()
         {
-            if (playerInput.interactionInput && interactable != null && interactable.InteractionEnabled)
+            if (playerInput.interactionInput)
             {
-                interactable.Interact();
+                AttemptInteraction();
+            }
+        }
+
+
+        private void AttemptInteraction()
+        {
+            if (InteractionTarget.currentTarget != null && InteractionTarget.currentTarget.IsInteractionEnabled())
+            {
+                InteractionTarget.currentTarget.Interact();
             }
         }
     }

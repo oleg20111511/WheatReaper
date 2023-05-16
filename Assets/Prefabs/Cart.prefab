@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 6361482382099703545}
   - component: {fileID: 6361482382099703429}
   - component: {fileID: 2897423531504478744}
-  - component: {fileID: 6361482382099703546}
   - component: {fileID: 1854958207778253805}
+  - component: {fileID: 6361482382099703546}
+  - component: {fileID: 2952538454740544648}
   m_Layer: 0
   m_Name: Cart
   m_TagString: Untagged
@@ -233,35 +234,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6361482382099703546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6361482382099703544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 028871375dbc75a41b408cf9dba6d405, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fullnessSprites:
-  - breakpoint: 0
-    sprite: {fileID: -1349044791, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
-  - breakpoint: 0.33
-    sprite: {fileID: -2010819941, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
-  - breakpoint: 0.66
-    sprite: {fileID: -1939655064, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
-  - breakpoint: 1
-    sprite: {fileID: -931925334, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
-  capacity: 30
-  keyPrompt: {fileID: 6361482382514909688}
-  outPosition: {fileID: 0}
-  inPosition: {fileID: 0}
-  movementSpeed: 1.5
-  farmer: {fileID: 0}
-  wheatTransferSound: {fileID: 8300000, guid: 1047391741d10804180ff88d394efc94, type: 3}
-  movementSound: {fileID: 8300000, guid: b01b29c89239d154993ca6ddf9fb7e25, type: 3}
 --- !u!114 &1854958207778253805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,6 +313,47 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &6361482382099703546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6361482382099703544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 028871375dbc75a41b408cf9dba6d405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullnessSprites:
+  - breakpoint: 0
+    sprite: {fileID: -1349044791, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
+  - breakpoint: 0.33
+    sprite: {fileID: -2010819941, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
+  - breakpoint: 0.66
+    sprite: {fileID: -1939655064, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
+  - breakpoint: 1
+    sprite: {fileID: -931925334, guid: 1fcea49d86d3fe54db2339c37153b0dd, type: 3}
+  capacity: 30
+  outPosition: {fileID: 0}
+  inPosition: {fileID: 0}
+  movementSpeed: 1.5
+  farmer: {fileID: 0}
+  wheatTransferSound: {fileID: 8300000, guid: 1047391741d10804180ff88d394efc94, type: 3}
+  movementSound: {fileID: 8300000, guid: b01b29c89239d154993ca6ddf9fb7e25, type: 3}
+--- !u!114 &2952538454740544648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6361482382099703544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c123efdbbef5143b6aa2a58ac7ba5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyPrompt: {fileID: 6361482382514909688}
 --- !u!1 &6361482382514909688
 GameObject:
   m_ObjectHideFlags: 0

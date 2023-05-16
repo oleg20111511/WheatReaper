@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pests;
 using Player;
+using Interaction;
+
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(AudioSource))]
-public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
+[RequireComponent(typeof(InteractionTarget))]
+public class CartController : MonoBehaviour, IPestVulnerability
 {
     [Serializable]
     public struct FullnessSprite
@@ -21,7 +24,6 @@ public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
 
     [SerializeField] private List<FullnessSprite> fullnessSprites;
     [SerializeField] private int capacity = 30;
-    [SerializeField] private GameObject keyPrompt;
     [SerializeField] private Transform outPosition;
     [SerializeField] private Transform inPosition;
     [SerializeField] private float movementSpeed = 3f;
@@ -29,16 +31,23 @@ public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
     [SerializeField] private AudioClip wheatTransferSound;
     [SerializeField] private AudioClip movementSound;
 
+    private InteractionTarget interactionTarget;
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb2d;
     private AudioSource audioSource;
     private Transform movementTarget;
     private int wheatAmount = 0;
 
-    
+
     public static CartController Instance
     {
         get { return instance; }
+    }
+
+
+    public InteractionTarget InteractionTarget
+    {
+        get { return interactionTarget; }
     }
 
 
@@ -64,12 +73,6 @@ public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
     }
 
 
-    public bool InteractionEnabled
-    {
-        get { return !movementTarget; }
-    }
-
-
     public bool CanBeDamagedByPest
     {
         get { return wheatAmount > 0; }
@@ -88,6 +91,14 @@ public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
+        interactionTarget = GetComponent<InteractionTarget>();
+    }
+
+
+    private void Start()
+    {
+        interactionTarget.interactionCheck = () => { return !movementTarget; };
+        interactionTarget.Interacted += Interact;
     }
 
 
@@ -110,38 +121,6 @@ public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
             }
         }
     }
-    
-
-    public void Approach()
-    {
-        if (InteractionEnabled)
-        {
-            keyPrompt.SetActive(true);
-        }
-    }
-
-
-    public void Leave()
-    {
-        keyPrompt.SetActive(false);
-    }
-
-
-    public void Interact()
-    {
-        if (WheatAmount == capacity)
-        {
-            return;
-        }
-        // Transfer wheat from player to cart
-        PlayerHarvestController harvestController = PlayerController.Instance.harvestController;
-
-        int cartSpace = Capacity - WheatAmount;
-        int transferAmount = Mathf.Min(harvestController.WheatOnHand, cartSpace);
-
-        harvestController.WheatOnHand -= transferAmount;
-        WheatAmount += transferAmount;
-    }
 
 
     public void EnableHarvestTeleportation()
@@ -163,6 +142,23 @@ public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
         audioSource.Play();
 
         MoveTo(outPosition);
+    }
+
+
+    private void Interact()
+    {
+        if (WheatAmount == capacity)
+        {
+            return;
+        }
+        // Transfer wheat from player to cart
+        PlayerHarvestController harvestController = PlayerController.Instance.harvestController;
+
+        int cartSpace = Capacity - WheatAmount;
+        int transferAmount = Mathf.Min(harvestController.WheatOnHand, cartSpace);
+
+        harvestController.WheatOnHand -= transferAmount;
+        WheatAmount += transferAmount;
     }
 
 
@@ -190,7 +186,7 @@ public class CartController : MonoBehaviour, IInteractable, IPestVulnerability
     {
         // Iterate through all fullness sprites, assigning their sprite to renderer
         // But break when fullness breakpoint is not reached
-        float fullness = (float) wheatAmount / (float) capacity;
+        float fullness = (float)wheatAmount / (float)capacity;
         foreach (FullnessSprite fullnessSprite in fullnessSprites)
         {
             if (fullnessSprite.breakpoint > fullness)

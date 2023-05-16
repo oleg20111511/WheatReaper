@@ -147,7 +147,7 @@ namespace Player
                 field.Harvest();
                 if (harvestTeleportationEnabled)
                 {
-                    CartController.Instance.Interact();
+                    CartController.Instance.InteractionTarget.Interact();
                 }
             }
         }
